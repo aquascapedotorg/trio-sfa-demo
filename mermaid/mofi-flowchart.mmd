@@ -1,0 +1,36 @@
+flowchart TD
+  A(["Buka aplikasi"]) --> B["Input nomor HP"]
+  B --> C{"Nomor terdaftar dan aktif?"}
+  C -- "Tidak / diblokir" --> C1["Pesan: akun tidak ditemukan atau diblokir"] --> B
+  C -- Ya --> D["Input OTP"]
+  D --> E{"OTP valid?"}
+  E -- Salah --> D
+  E -- Kedaluwarsa --> E1["Kirim ulang OTP setelah 30 detik"] --> D
+  E -- Benar --> H["Homepage: Go Live bulan ini, tugas mendesak"]
+  H --> I{"Aksi RO"}
+  I -- "Pengajuan perlu direview" --> J["Review leads dari DT atau Agen"]
+  I -- "Buat pengajuan" --> K["Step 1: sumber Telesales/Agen, nama, no HP, SKU kendaraan"]
+  K --> K1{"SKU ditemukan?"}
+  K1 -- Tidak --> K2["Pilih kendaraan manual"] --> L
+  K1 -- Ya --> L["Step 2: pilih paket, atur provisi"]
+  J --> L
+  L --> M["Step 3: data customer, alamat, pekerjaan, pasangan jika menikah"]
+  M --> N["Step 4: review ringkasan, centang persetujuan, kirim"]
+  N --> P["Menunggu konfirmasi customer"]
+  P --> Q{"Respons customer"}
+  Q -- "Waktu habis" --> Q1["Kirim ulang atau ganti nomor HP"] --> P
+  Q -- Menolak --> X1(["Dibatalkan"])
+  Q -- Setuju --> R["Pengecekan identitas"]
+  R --> S["Analisis kredit oleh CA"]
+  S --> T{"Hasil analisis"}
+  T -- "Data kurang" --> T1["RO lengkapi data tambahan"] --> S
+  T -- Deviasi --> T2["Pengajuan deviasi"] --> U
+  T -- Ditolak --> X2(["Ditolak"])
+  T -- Disetujui --> U["Pengesahan perjanjian oleh customer"]
+  U --> U1{"Ditandatangani sebelum batas waktu?"}
+  U1 -- Tidak --> U2["Kirim ulang perjanjian"] --> U
+  U1 -- Ya --> V["Verifikasi akhir"]
+  V --> W{"Take over?"}
+  W -- Ya --> W1["Tunggu dokumen take over dari BM"] --> W2["RO konfirmasi BPKB diserahkan ke cabang"] --> Y
+  W -- Tidak --> W3["Pengecekan akhir sebelum Go Live"] --> Y
+  Y["Go Live: pencairan dana"] --> Z(["Selesai, kontrak bisa diunduh"])

@@ -1,0 +1,16 @@
+flowchart TB
+  S0((start)) --> BK["Belum dikunjungi"]
+  BK -- "tiba di lokasi" --> CI["Check in"]
+  subgraph DO["Di outlet"]
+    SS["Sisa stok"] --> RT["Retur"]
+    SS --> PN["Penagihan"]
+    SS --> PJ["Penjualan"]
+    RT --> PN
+    PN --> PJ
+  end
+  CI --> SS
+  PJ -- "aplikasi ditutup" --> DR["Draft transaksi"]
+  DR -- "re-login, lanjutkan" --> SS
+  PJ -- "selesai di outlet" --> CO["Check out"]
+  CO --> IS["Istirahat"] --> BK
+  CO -- "semua rute selesai" --> E1((end))

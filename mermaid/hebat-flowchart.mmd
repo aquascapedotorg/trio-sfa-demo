@@ -1,0 +1,22 @@
+flowchart TD
+  A(["Buka HeBAT"]) --> B["Splash"] --> C{"Punya akun?"}
+  C -- Belum --> C1["Sign up"] --> D
+  C -- Ya --> D["Sign in: username dan password"]
+  D --> D1{"Lupa password?"}
+  D1 -- Ya --> D2["Masukkan email"] --> D3["Input kode dari email"] --> D4["Buat password baru"] --> D
+  D1 -- Tidak --> E["Home: dashboard dan status"]
+  E --> F{"Sudah absen?"}
+  F -- Belum --> F1["Pengingat: absen sebelum mulai kerja"] --> G["Absen masuk"] --> H
+  F -- Sudah --> H["Route: rute hari ini"]
+  H --> I["Visit: daftar outlet dan progres"]
+  I --> I1{"Ada visit terputus?"}
+  I1 -- Tidak --> J["Cari dan pilih outlet"] --> K["Peta lokasi dan jarak"] --> K1["Check in"] --> L
+  I1 -- Ya --> I2["Lanjutkan aktivitas visit"] --> L
+  L["Visit activity"] --> L1["Count stock"] & L2["Order capture"] & L3["Education"] & L4["Merchandise dan foto"]
+  L1 & L2 & L3 & L4 --> M["Selesaikan visit"]
+  M --> N{"Validasi"}
+  N -- "Peringatan atau galat" --> L
+  N -- Sukses --> O["Progres outlet bertambah"]
+  O --> P{"Masih ada outlet?"}
+  P -- Ya --> J
+  P -- Tidak --> Q["Absen pulang"] --> Z(["Selesai"])

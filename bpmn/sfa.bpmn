@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="sfa_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="wireframe-rea" exporterVersion="1.0">
+  <bpmn:collaboration id="sfa_collab">
+    <bpmn:participant id="sfa_pool" name="Proses Kunjungan Harian Sales (NNA SFA)" processRef="sfa_process" />
+  </bpmn:collaboration>
+  <bpmn:process id="sfa_process" isExecutable="false">
+    <bpmn:laneSet id="sfa_laneset">
+        <bpmn:lane id="sfa_lane0" name="Pelanggan (WS / RRO)">
+          <bpmn:flowNodeRef>sfa_faktur</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="sfa_lane1" name="Sales">
+          <bpmn:flowNodeRef>sfa_s</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_login</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_dash</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_siap</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_g_rute</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_dalam</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_luar</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_g_rute_m</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_checkin</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_stok</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_g_akt</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_retur</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_tagih</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_jual</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_g_akt_m</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_checkout</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_g_lagi</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_kas</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_akhir</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="sfa_lane2" name="Sistem SFA / DMS">
+          <bpmn:flowNodeRef>sfa_sync</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_catat</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_push</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>sfa_e</bpmn:flowNodeRef>
+        </bpmn:lane>
+    </bpmn:laneSet>
+      <bpmn:startEvent id="sfa_s" name="Mulai hari kerja"><bpmn:outgoing>sfa_f0</bpmn:outgoing></bpmn:startEvent>
+      <bpmn:userTask id="sfa_login" name="Login"><bpmn:incoming>sfa_f0</bpmn:incoming><bpmn:outgoing>sfa_f1</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="sfa_sync" name="Sync rute, pelanggan, stok, harga"><bpmn:incoming>sfa_f1</bpmn:incoming><bpmn:outgoing>sfa_f2</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:userTask id="sfa_dash" name="Baca berita harian, cek dashboard"><bpmn:incoming>sfa_f2</bpmn:incoming><bpmn:outgoing>sfa_f3</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="sfa_siap" name="Persiapan: cek rute dan stok"><bpmn:incoming>sfa_f3</bpmn:incoming><bpmn:outgoing>sfa_f4</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="sfa_g_rute" name="Dalam rute?"><bpmn:incoming>sfa_f4</bpmn:incoming><bpmn:incoming>sfa_f22</bpmn:incoming><bpmn:outgoing>sfa_f5</bpmn:outgoing><bpmn:outgoing>sfa_f6</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="sfa_dalam" name="Pilih pelanggan dari call plan"><bpmn:incoming>sfa_f5</bpmn:incoming><bpmn:outgoing>sfa_f7</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="sfa_luar" name="Pilih luar rute / daftar RRO baru"><bpmn:incoming>sfa_f6</bpmn:incoming><bpmn:outgoing>sfa_f8</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="sfa_g_rute_m"><bpmn:incoming>sfa_f7</bpmn:incoming><bpmn:incoming>sfa_f8</bpmn:incoming><bpmn:outgoing>sfa_f9</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="sfa_checkin" name="Check in di lokasi"><bpmn:incoming>sfa_f9</bpmn:incoming><bpmn:outgoing>sfa_f10</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="sfa_catat" name="Simpan lokasi dan waktu kunjungan"><bpmn:incoming>sfa_f10</bpmn:incoming><bpmn:outgoing>sfa_f11</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:userTask id="sfa_stok" name="Lihat info, input sisa stok pelanggan"><bpmn:incoming>sfa_f11</bpmn:incoming><bpmn:outgoing>sfa_f12</bpmn:outgoing></bpmn:userTask>
+      <bpmn:inclusiveGateway id="sfa_g_akt" name="Aktivitas"><bpmn:incoming>sfa_f12</bpmn:incoming><bpmn:outgoing>sfa_f13</bpmn:outgoing><bpmn:outgoing>sfa_f14</bpmn:outgoing><bpmn:outgoing>sfa_f15</bpmn:outgoing></bpmn:inclusiveGateway>
+      <bpmn:userTask id="sfa_retur" name="Retur"><bpmn:incoming>sfa_f13</bpmn:incoming><bpmn:outgoing>sfa_f16</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="sfa_tagih" name="Penagihan"><bpmn:incoming>sfa_f14</bpmn:incoming><bpmn:outgoing>sfa_f17</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="sfa_jual" name="Penjualan"><bpmn:incoming>sfa_f15</bpmn:incoming><bpmn:outgoing>sfa_f18</bpmn:outgoing></bpmn:userTask>
+      <bpmn:inclusiveGateway id="sfa_g_akt_m"><bpmn:incoming>sfa_f16</bpmn:incoming><bpmn:incoming>sfa_f17</bpmn:incoming><bpmn:incoming>sfa_f18</bpmn:incoming><bpmn:outgoing>sfa_f19</bpmn:outgoing></bpmn:inclusiveGateway>
+      <bpmn:manualTask id="sfa_faktur" name="Terima faktur, tanda tangan"><bpmn:incoming>sfa_f19</bpmn:incoming><bpmn:outgoing>sfa_f20</bpmn:outgoing></bpmn:manualTask>
+      <bpmn:userTask id="sfa_checkout" name="Check out"><bpmn:incoming>sfa_f20</bpmn:incoming><bpmn:outgoing>sfa_f21</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="sfa_g_lagi" name="Pelanggan lain?"><bpmn:incoming>sfa_f21</bpmn:incoming><bpmn:outgoing>sfa_f22</bpmn:outgoing><bpmn:outgoing>sfa_f23</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="sfa_kas" name="Input biaya operasional"><bpmn:incoming>sfa_f23</bpmn:incoming><bpmn:outgoing>sfa_f24</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="sfa_akhir" name="Akhiri perjalanan, kembalikan stok"><bpmn:incoming>sfa_f24</bpmn:incoming><bpmn:outgoing>sfa_f25</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="sfa_push" name="Sync transaksi ke DMS"><bpmn:incoming>sfa_f25</bpmn:incoming><bpmn:outgoing>sfa_f26</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:endEvent id="sfa_e" name="Hari selesai"><bpmn:incoming>sfa_f26</bpmn:incoming></bpmn:endEvent>
+      <bpmn:sequenceFlow id="sfa_f0" sourceRef="sfa_s" targetRef="sfa_login" />
+      <bpmn:sequenceFlow id="sfa_f1" sourceRef="sfa_login" targetRef="sfa_sync" />
+      <bpmn:sequenceFlow id="sfa_f2" sourceRef="sfa_sync" targetRef="sfa_dash" />
+      <bpmn:sequenceFlow id="sfa_f3" sourceRef="sfa_dash" targetRef="sfa_siap" />
+      <bpmn:sequenceFlow id="sfa_f4" sourceRef="sfa_siap" targetRef="sfa_g_rute" />
+      <bpmn:sequenceFlow id="sfa_f5" sourceRef="sfa_g_rute" targetRef="sfa_dalam" name="Ya" />
+      <bpmn:sequenceFlow id="sfa_f6" sourceRef="sfa_g_rute" targetRef="sfa_luar" name="Tidak" />
+      <bpmn:sequenceFlow id="sfa_f7" sourceRef="sfa_dalam" targetRef="sfa_g_rute_m" />
+      <bpmn:sequenceFlow id="sfa_f8" sourceRef="sfa_luar" targetRef="sfa_g_rute_m" />
+      <bpmn:sequenceFlow id="sfa_f9" sourceRef="sfa_g_rute_m" targetRef="sfa_checkin" />
+      <bpmn:sequenceFlow id="sfa_f10" sourceRef="sfa_checkin" targetRef="sfa_catat" />
+      <bpmn:sequenceFlow id="sfa_f11" sourceRef="sfa_catat" targetRef="sfa_stok" />
+      <bpmn:sequenceFlow id="sfa_f12" sourceRef="sfa_stok" targetRef="sfa_g_akt" />
+      <bpmn:sequenceFlow id="sfa_f13" sourceRef="sfa_g_akt" targetRef="sfa_retur" />
+      <bpmn:sequenceFlow id="sfa_f14" sourceRef="sfa_g_akt" targetRef="sfa_tagih" />
+      <bpmn:sequenceFlow id="sfa_f15" sourceRef="sfa_g_akt" targetRef="sfa_jual" />
+      <bpmn:sequenceFlow id="sfa_f16" sourceRef="sfa_retur" targetRef="sfa_g_akt_m" />
+      <bpmn:sequenceFlow id="sfa_f17" sourceRef="sfa_tagih" targetRef="sfa_g_akt_m" />
+      <bpmn:sequenceFlow id="sfa_f18" sourceRef="sfa_jual" targetRef="sfa_g_akt_m" />
+      <bpmn:sequenceFlow id="sfa_f19" sourceRef="sfa_g_akt_m" targetRef="sfa_faktur" />
+      <bpmn:sequenceFlow id="sfa_f20" sourceRef="sfa_faktur" targetRef="sfa_checkout" />
+      <bpmn:sequenceFlow id="sfa_f21" sourceRef="sfa_checkout" targetRef="sfa_g_lagi" />
+      <bpmn:sequenceFlow id="sfa_f22" sourceRef="sfa_g_lagi" targetRef="sfa_g_rute" name="Ya" />
+      <bpmn:sequenceFlow id="sfa_f23" sourceRef="sfa_g_lagi" targetRef="sfa_kas" name="Tidak" />
+      <bpmn:sequenceFlow id="sfa_f24" sourceRef="sfa_kas" targetRef="sfa_akhir" />
+      <bpmn:sequenceFlow id="sfa_f25" sourceRef="sfa_akhir" targetRef="sfa_push" />
+      <bpmn:sequenceFlow id="sfa_f26" sourceRef="sfa_push" targetRef="sfa_e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="sfa_diagram">
+    <bpmndi:BPMNPlane id="sfa_plane" bpmnElement="sfa_collab">
+      <bpmndi:BPMNShape id="sfa_pool_di" bpmnElement="sfa_pool" isHorizontal="true"><dc:Bounds x="0" y="0" width="3270" height="570" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_lane0_di" bpmnElement="sfa_lane0" isHorizontal="true"><dc:Bounds x="30" y="0" width="3240" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_lane1_di" bpmnElement="sfa_lane1" isHorizontal="true"><dc:Bounds x="30" y="140" width="3240" height="290" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_lane2_di" bpmnElement="sfa_lane2" isHorizontal="true"><dc:Bounds x="30" y="430" width="3240" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_s_di" bpmnElement="sfa_s"><dc:Bounds x="142" y="267" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="110" y="307" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_login_di" bpmnElement="sfa_login"><dc:Bounds x="250" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_sync_di" bpmnElement="sfa_sync"><dc:Bounds x="400" y="464" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_dash_di" bpmnElement="sfa_dash"><dc:Bounds x="550" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_siap_di" bpmnElement="sfa_siap"><dc:Bounds x="700" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_g_rute_di" bpmnElement="sfa_g_rute" isMarkerVisible="true"><dc:Bounds x="885" y="260" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="860" y="314" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_dalam_di" bpmnElement="sfa_dalam"><dc:Bounds x="1000" y="189" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_luar_di" bpmnElement="sfa_luar"><dc:Bounds x="1000" y="309" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_g_rute_m_di" bpmnElement="sfa_g_rute_m" isMarkerVisible="true"><dc:Bounds x="1185" y="260" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_checkin_di" bpmnElement="sfa_checkin"><dc:Bounds x="1300" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_catat_di" bpmnElement="sfa_catat"><dc:Bounds x="1450" y="464" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_stok_di" bpmnElement="sfa_stok"><dc:Bounds x="1600" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_g_akt_di" bpmnElement="sfa_g_akt"><dc:Bounds x="1785" y="260" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1760" y="314" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_retur_di" bpmnElement="sfa_retur"><dc:Bounds x="1900" y="171" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_tagih_di" bpmnElement="sfa_tagih"><dc:Bounds x="1900" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_jual_di" bpmnElement="sfa_jual"><dc:Bounds x="1900" y="327" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_g_akt_m_di" bpmnElement="sfa_g_akt_m"><dc:Bounds x="2085" y="260" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_faktur_di" bpmnElement="sfa_faktur"><dc:Bounds x="2200" y="34" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_checkout_di" bpmnElement="sfa_checkout"><dc:Bounds x="2350" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_g_lagi_di" bpmnElement="sfa_g_lagi" isMarkerVisible="true"><dc:Bounds x="2535" y="260" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2510" y="314" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_kas_di" bpmnElement="sfa_kas"><dc:Bounds x="2650" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_akhir_di" bpmnElement="sfa_akhir"><dc:Bounds x="2800" y="249" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_push_di" bpmnElement="sfa_push"><dc:Bounds x="2950" y="464" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="sfa_e_di" bpmnElement="sfa_e"><dc:Bounds x="3142" y="482" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="3110" y="522" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="sfa_f0_di" bpmnElement="sfa_f0"><di:waypoint x="178" y="285" /><di:waypoint x="250" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f1_di" bpmnElement="sfa_f1"><di:waypoint x="370" y="285" /><di:waypoint x="378" y="285" /><di:waypoint x="378" y="500" /><di:waypoint x="400" y="500" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f2_di" bpmnElement="sfa_f2"><di:waypoint x="520" y="500" /><di:waypoint x="528" y="500" /><di:waypoint x="528" y="285" /><di:waypoint x="550" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f3_di" bpmnElement="sfa_f3"><di:waypoint x="670" y="285" /><di:waypoint x="700" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f4_di" bpmnElement="sfa_f4"><di:waypoint x="820" y="285" /><di:waypoint x="885" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f5_di" bpmnElement="sfa_f5"><di:waypoint x="910" y="260" /><di:waypoint x="910" y="225" /><di:waypoint x="1000" y="225" /><bpmndi:BPMNLabel><dc:Bounds x="915" y="197" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f6_di" bpmnElement="sfa_f6"><di:waypoint x="910" y="310" /><di:waypoint x="910" y="345" /><di:waypoint x="1000" y="345" /><bpmndi:BPMNLabel><dc:Bounds x="915" y="317" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f7_di" bpmnElement="sfa_f7"><di:waypoint x="1120" y="225" /><di:waypoint x="1210" y="225" /><di:waypoint x="1210" y="260" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f8_di" bpmnElement="sfa_f8"><di:waypoint x="1120" y="345" /><di:waypoint x="1210" y="345" /><di:waypoint x="1210" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f9_di" bpmnElement="sfa_f9"><di:waypoint x="1235" y="285" /><di:waypoint x="1300" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f10_di" bpmnElement="sfa_f10"><di:waypoint x="1420" y="285" /><di:waypoint x="1428" y="285" /><di:waypoint x="1428" y="500" /><di:waypoint x="1450" y="500" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f11_di" bpmnElement="sfa_f11"><di:waypoint x="1570" y="500" /><di:waypoint x="1578" y="500" /><di:waypoint x="1578" y="285" /><di:waypoint x="1600" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f12_di" bpmnElement="sfa_f12"><di:waypoint x="1720" y="285" /><di:waypoint x="1785" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f13_di" bpmnElement="sfa_f13"><di:waypoint x="1810" y="260" /><di:waypoint x="1810" y="207" /><di:waypoint x="1900" y="207" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f14_di" bpmnElement="sfa_f14"><di:waypoint x="1835" y="285" /><di:waypoint x="1900" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f15_di" bpmnElement="sfa_f15"><di:waypoint x="1810" y="310" /><di:waypoint x="1810" y="363" /><di:waypoint x="1900" y="363" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f16_di" bpmnElement="sfa_f16"><di:waypoint x="2020" y="207" /><di:waypoint x="2110" y="207" /><di:waypoint x="2110" y="260" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f17_di" bpmnElement="sfa_f17"><di:waypoint x="2020" y="285" /><di:waypoint x="2085" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f18_di" bpmnElement="sfa_f18"><di:waypoint x="2020" y="363" /><di:waypoint x="2110" y="363" /><di:waypoint x="2110" y="310" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f19_di" bpmnElement="sfa_f19"><di:waypoint x="2110" y="260" /><di:waypoint x="2110" y="70" /><di:waypoint x="2200" y="70" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f20_di" bpmnElement="sfa_f20"><di:waypoint x="2320" y="70" /><di:waypoint x="2328" y="70" /><di:waypoint x="2328" y="285" /><di:waypoint x="2350" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f21_di" bpmnElement="sfa_f21"><di:waypoint x="2470" y="285" /><di:waypoint x="2535" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f22_di" bpmnElement="sfa_f22"><di:waypoint x="2560" y="310" /><di:waypoint x="2560" y="416" /><di:waypoint x="855" y="416" /><di:waypoint x="855" y="285" /><di:waypoint x="885" y="285" /><bpmndi:BPMNLabel><dc:Bounds x="830" y="257" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f23_di" bpmnElement="sfa_f23"><di:waypoint x="2585" y="285" /><di:waypoint x="2650" y="285" /><bpmndi:BPMNLabel><dc:Bounds x="2578" y="257" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f24_di" bpmnElement="sfa_f24"><di:waypoint x="2770" y="285" /><di:waypoint x="2800" y="285" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f25_di" bpmnElement="sfa_f25"><di:waypoint x="2920" y="285" /><di:waypoint x="2928" y="285" /><di:waypoint x="2928" y="500" /><di:waypoint x="2950" y="500" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="sfa_f26_di" bpmnElement="sfa_f26"><di:waypoint x="3070" y="500" /><di:waypoint x="3142" y="500" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

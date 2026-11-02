@@ -1,0 +1,18 @@
+flowchart TB
+  S0((start)) -- "leads dari DT" --> PR["Perlu Review"]
+  S0 -- "RO kirim pengajuan" --> MK["Menunggu Konfirmasi Customer"]
+  PR --> MK
+  subgraph PA["Proses Analisis"]
+    PI["Pengecekan Identitas"] --> AK["Analisis Kredit"]
+    AK --> PD["Perlu Dilengkapi"]
+    PD --> AK
+    AK --> DV["Pengajuan Deviasi"]
+    DV --> OK["Pengajuan Disetujui"]
+    AK --> OK
+  end
+  MK -- "customer setuju" --> PI
+  MK -- "customer menolak" --> BT["Dibatalkan"]
+  AK -- "tidak layak" --> TL["Ditolak"]
+  OK --> PP["Pengesahan Perjanjian"] --> VA["Verifikasi Akhir"] --> GL["Go Live"] --> E1((end))
+  BT --> E2((end))
+  TL --> E3((end))

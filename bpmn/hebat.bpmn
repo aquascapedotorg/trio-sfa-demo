@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="hebat_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="wireframe-rea" exporterVersion="1.0">
+  <bpmn:collaboration id="hebat_collab">
+    <bpmn:participant id="hebat_pool" name="Proses Kunjungan Outlet (BAT HeBAT)" processRef="hebat_process" />
+  </bpmn:collaboration>
+  <bpmn:process id="hebat_process" isExecutable="false">
+    <bpmn:laneSet id="hebat_laneset">
+        <bpmn:lane id="hebat_lane0" name="Outlet">
+          <bpmn:flowNodeRef>hebat_setuju</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="hebat_lane1" name="Field Force">
+          <bpmn:flowNodeRef>hebat_s</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_signin</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_home</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_absen</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_rute</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_pilih</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_checkin</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_g_akt</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_count</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_order</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_edu</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_merch</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_g_akt_m</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_selesai</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_g_lagi</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_pulang</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="hebat_lane2" name="Sistem HeBAT">
+          <bpmn:flowNodeRef>hebat_catat_absen</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_progres</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="hebat_lane3" name="Supervisor">
+          <bpmn:flowNodeRef>hebat_review</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>hebat_e</bpmn:flowNodeRef>
+        </bpmn:lane>
+    </bpmn:laneSet>
+      <bpmn:startEvent id="hebat_s" name="Mulai hari kerja"><bpmn:outgoing>hebat_f0</bpmn:outgoing></bpmn:startEvent>
+      <bpmn:userTask id="hebat_signin" name="Sign in"><bpmn:incoming>hebat_f0</bpmn:incoming><bpmn:outgoing>hebat_f1</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_home" name="Lihat dashboard dan pengingat absen"><bpmn:incoming>hebat_f1</bpmn:incoming><bpmn:outgoing>hebat_f2</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_absen" name="Absen masuk"><bpmn:incoming>hebat_f2</bpmn:incoming><bpmn:outgoing>hebat_f3</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="hebat_catat_absen" name="Catat kehadiran"><bpmn:incoming>hebat_f3</bpmn:incoming><bpmn:outgoing>hebat_f4</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:userTask id="hebat_rute" name="Lihat rute hari ini"><bpmn:incoming>hebat_f4</bpmn:incoming><bpmn:outgoing>hebat_f5</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_pilih" name="Pilih outlet dari daftar visit"><bpmn:incoming>hebat_f5</bpmn:incoming><bpmn:incoming>hebat_f20</bpmn:incoming><bpmn:outgoing>hebat_f6</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_checkin" name="Buka lokasi outlet, check in"><bpmn:incoming>hebat_f6</bpmn:incoming><bpmn:outgoing>hebat_f7</bpmn:outgoing></bpmn:userTask>
+      <bpmn:inclusiveGateway id="hebat_g_akt" name="Aktivitas visit"><bpmn:incoming>hebat_f7</bpmn:incoming><bpmn:outgoing>hebat_f8</bpmn:outgoing><bpmn:outgoing>hebat_f9</bpmn:outgoing><bpmn:outgoing>hebat_f10</bpmn:outgoing><bpmn:outgoing>hebat_f11</bpmn:outgoing></bpmn:inclusiveGateway>
+      <bpmn:userTask id="hebat_count" name="Count stock"><bpmn:incoming>hebat_f8</bpmn:incoming><bpmn:outgoing>hebat_f12</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_order" name="Order capture"><bpmn:incoming>hebat_f9</bpmn:incoming><bpmn:outgoing>hebat_f13</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_edu" name="Education"><bpmn:incoming>hebat_f10</bpmn:incoming><bpmn:outgoing>hebat_f14</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_merch" name="Merchandise + foto"><bpmn:incoming>hebat_f11</bpmn:incoming><bpmn:outgoing>hebat_f15</bpmn:outgoing></bpmn:userTask>
+      <bpmn:inclusiveGateway id="hebat_g_akt_m"><bpmn:incoming>hebat_f12</bpmn:incoming><bpmn:incoming>hebat_f13</bpmn:incoming><bpmn:incoming>hebat_f14</bpmn:incoming><bpmn:incoming>hebat_f15</bpmn:incoming><bpmn:outgoing>hebat_f16</bpmn:outgoing></bpmn:inclusiveGateway>
+      <bpmn:manualTask id="hebat_setuju" name="Konfirmasi order"><bpmn:incoming>hebat_f16</bpmn:incoming><bpmn:outgoing>hebat_f17</bpmn:outgoing></bpmn:manualTask>
+      <bpmn:userTask id="hebat_selesai" name="Selesaikan visit"><bpmn:incoming>hebat_f17</bpmn:incoming><bpmn:outgoing>hebat_f18</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="hebat_progres" name="Update progres visit"><bpmn:incoming>hebat_f18</bpmn:incoming><bpmn:outgoing>hebat_f19</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:exclusiveGateway id="hebat_g_lagi" name="Outlet lain?"><bpmn:incoming>hebat_f19</bpmn:incoming><bpmn:outgoing>hebat_f20</bpmn:outgoing><bpmn:outgoing>hebat_f21</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="hebat_pulang" name="Absen pulang"><bpmn:incoming>hebat_f21</bpmn:incoming><bpmn:outgoing>hebat_f22</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="hebat_review" name="Review hasil visit dan absensi"><bpmn:incoming>hebat_f22</bpmn:incoming><bpmn:outgoing>hebat_f23</bpmn:outgoing></bpmn:userTask>
+      <bpmn:endEvent id="hebat_e" name="Hari selesai"><bpmn:incoming>hebat_f23</bpmn:incoming></bpmn:endEvent>
+      <bpmn:sequenceFlow id="hebat_f0" sourceRef="hebat_s" targetRef="hebat_signin" />
+      <bpmn:sequenceFlow id="hebat_f1" sourceRef="hebat_signin" targetRef="hebat_home" />
+      <bpmn:sequenceFlow id="hebat_f2" sourceRef="hebat_home" targetRef="hebat_absen" />
+      <bpmn:sequenceFlow id="hebat_f3" sourceRef="hebat_absen" targetRef="hebat_catat_absen" />
+      <bpmn:sequenceFlow id="hebat_f4" sourceRef="hebat_catat_absen" targetRef="hebat_rute" />
+      <bpmn:sequenceFlow id="hebat_f5" sourceRef="hebat_rute" targetRef="hebat_pilih" />
+      <bpmn:sequenceFlow id="hebat_f6" sourceRef="hebat_pilih" targetRef="hebat_checkin" />
+      <bpmn:sequenceFlow id="hebat_f7" sourceRef="hebat_checkin" targetRef="hebat_g_akt" />
+      <bpmn:sequenceFlow id="hebat_f8" sourceRef="hebat_g_akt" targetRef="hebat_count" />
+      <bpmn:sequenceFlow id="hebat_f9" sourceRef="hebat_g_akt" targetRef="hebat_order" />
+      <bpmn:sequenceFlow id="hebat_f10" sourceRef="hebat_g_akt" targetRef="hebat_edu" />
+      <bpmn:sequenceFlow id="hebat_f11" sourceRef="hebat_g_akt" targetRef="hebat_merch" />
+      <bpmn:sequenceFlow id="hebat_f12" sourceRef="hebat_count" targetRef="hebat_g_akt_m" />
+      <bpmn:sequenceFlow id="hebat_f13" sourceRef="hebat_order" targetRef="hebat_g_akt_m" />
+      <bpmn:sequenceFlow id="hebat_f14" sourceRef="hebat_edu" targetRef="hebat_g_akt_m" />
+      <bpmn:sequenceFlow id="hebat_f15" sourceRef="hebat_merch" targetRef="hebat_g_akt_m" />
+      <bpmn:sequenceFlow id="hebat_f16" sourceRef="hebat_g_akt_m" targetRef="hebat_setuju" />
+      <bpmn:sequenceFlow id="hebat_f17" sourceRef="hebat_setuju" targetRef="hebat_selesai" />
+      <bpmn:sequenceFlow id="hebat_f18" sourceRef="hebat_selesai" targetRef="hebat_progres" />
+      <bpmn:sequenceFlow id="hebat_f19" sourceRef="hebat_progres" targetRef="hebat_g_lagi" />
+      <bpmn:sequenceFlow id="hebat_f20" sourceRef="hebat_g_lagi" targetRef="hebat_pilih" name="Ya" />
+      <bpmn:sequenceFlow id="hebat_f21" sourceRef="hebat_g_lagi" targetRef="hebat_pulang" name="Tidak" />
+      <bpmn:sequenceFlow id="hebat_f22" sourceRef="hebat_pulang" targetRef="hebat_review" />
+      <bpmn:sequenceFlow id="hebat_f23" sourceRef="hebat_review" targetRef="hebat_e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="hebat_diagram">
+    <bpmndi:BPMNPlane id="hebat_plane" bpmnElement="hebat_collab">
+      <bpmndi:BPMNShape id="hebat_pool_di" bpmnElement="hebat_pool" isHorizontal="true"><dc:Bounds x="0" y="0" width="2820" height="800" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_lane0_di" bpmnElement="hebat_lane0" isHorizontal="true"><dc:Bounds x="30" y="0" width="2790" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_lane1_di" bpmnElement="hebat_lane1" isHorizontal="true"><dc:Bounds x="30" y="140" width="2790" height="380" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_lane2_di" bpmnElement="hebat_lane2" isHorizontal="true"><dc:Bounds x="30" y="520" width="2790" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_lane3_di" bpmnElement="hebat_lane3" isHorizontal="true"><dc:Bounds x="30" y="660" width="2790" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_s_di" bpmnElement="hebat_s"><dc:Bounds x="142" y="312" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="110" y="352" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_signin_di" bpmnElement="hebat_signin"><dc:Bounds x="250" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_home_di" bpmnElement="hebat_home"><dc:Bounds x="400" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_absen_di" bpmnElement="hebat_absen"><dc:Bounds x="550" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_catat_absen_di" bpmnElement="hebat_catat_absen"><dc:Bounds x="700" y="554" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_rute_di" bpmnElement="hebat_rute"><dc:Bounds x="850" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_pilih_di" bpmnElement="hebat_pilih"><dc:Bounds x="1000" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_checkin_di" bpmnElement="hebat_checkin"><dc:Bounds x="1150" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_g_akt_di" bpmnElement="hebat_g_akt"><dc:Bounds x="1335" y="305" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1310" y="359" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_count_di" bpmnElement="hebat_count"><dc:Bounds x="1450" y="168" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_order_di" bpmnElement="hebat_order"><dc:Bounds x="1450" y="252" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_edu_di" bpmnElement="hebat_edu"><dc:Bounds x="1450" y="336" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_merch_di" bpmnElement="hebat_merch"><dc:Bounds x="1450" y="420" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_g_akt_m_di" bpmnElement="hebat_g_akt_m"><dc:Bounds x="1635" y="305" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_setuju_di" bpmnElement="hebat_setuju"><dc:Bounds x="1750" y="34" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_selesai_di" bpmnElement="hebat_selesai"><dc:Bounds x="1900" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_progres_di" bpmnElement="hebat_progres"><dc:Bounds x="2050" y="554" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_g_lagi_di" bpmnElement="hebat_g_lagi" isMarkerVisible="true"><dc:Bounds x="2235" y="305" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2210" y="359" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_pulang_di" bpmnElement="hebat_pulang"><dc:Bounds x="2350" y="294" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_review_di" bpmnElement="hebat_review"><dc:Bounds x="2500" y="694" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="hebat_e_di" bpmnElement="hebat_e"><dc:Bounds x="2692" y="712" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2660" y="752" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="hebat_f0_di" bpmnElement="hebat_f0"><di:waypoint x="178" y="330" /><di:waypoint x="250" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f1_di" bpmnElement="hebat_f1"><di:waypoint x="370" y="330" /><di:waypoint x="400" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f2_di" bpmnElement="hebat_f2"><di:waypoint x="520" y="330" /><di:waypoint x="550" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f3_di" bpmnElement="hebat_f3"><di:waypoint x="670" y="330" /><di:waypoint x="678" y="330" /><di:waypoint x="678" y="590" /><di:waypoint x="700" y="590" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f4_di" bpmnElement="hebat_f4"><di:waypoint x="820" y="590" /><di:waypoint x="828" y="590" /><di:waypoint x="828" y="330" /><di:waypoint x="850" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f5_di" bpmnElement="hebat_f5"><di:waypoint x="970" y="330" /><di:waypoint x="1000" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f6_di" bpmnElement="hebat_f6"><di:waypoint x="1120" y="330" /><di:waypoint x="1150" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f7_di" bpmnElement="hebat_f7"><di:waypoint x="1270" y="330" /><di:waypoint x="1335" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f8_di" bpmnElement="hebat_f8"><di:waypoint x="1360" y="305" /><di:waypoint x="1360" y="204" /><di:waypoint x="1450" y="204" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f9_di" bpmnElement="hebat_f9"><di:waypoint x="1360" y="305" /><di:waypoint x="1360" y="288" /><di:waypoint x="1450" y="288" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f10_di" bpmnElement="hebat_f10"><di:waypoint x="1360" y="355" /><di:waypoint x="1360" y="372" /><di:waypoint x="1450" y="372" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f11_di" bpmnElement="hebat_f11"><di:waypoint x="1360" y="355" /><di:waypoint x="1360" y="456" /><di:waypoint x="1450" y="456" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f12_di" bpmnElement="hebat_f12"><di:waypoint x="1570" y="204" /><di:waypoint x="1660" y="204" /><di:waypoint x="1660" y="305" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f13_di" bpmnElement="hebat_f13"><di:waypoint x="1570" y="288" /><di:waypoint x="1660" y="288" /><di:waypoint x="1660" y="305" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f14_di" bpmnElement="hebat_f14"><di:waypoint x="1570" y="372" /><di:waypoint x="1660" y="372" /><di:waypoint x="1660" y="355" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f15_di" bpmnElement="hebat_f15"><di:waypoint x="1570" y="456" /><di:waypoint x="1660" y="456" /><di:waypoint x="1660" y="355" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f16_di" bpmnElement="hebat_f16"><di:waypoint x="1660" y="305" /><di:waypoint x="1660" y="70" /><di:waypoint x="1750" y="70" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f17_di" bpmnElement="hebat_f17"><di:waypoint x="1870" y="70" /><di:waypoint x="1878" y="70" /><di:waypoint x="1878" y="330" /><di:waypoint x="1900" y="330" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f18_di" bpmnElement="hebat_f18"><di:waypoint x="2020" y="330" /><di:waypoint x="2028" y="330" /><di:waypoint x="2028" y="590" /><di:waypoint x="2050" y="590" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f19_di" bpmnElement="hebat_f19"><di:waypoint x="2170" y="590" /><di:waypoint x="2260" y="590" /><di:waypoint x="2260" y="355" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f20_di" bpmnElement="hebat_f20"><di:waypoint x="2260" y="355" /><di:waypoint x="2260" y="506" /><di:waypoint x="970" y="506" /><di:waypoint x="970" y="330" /><di:waypoint x="1000" y="330" /><bpmndi:BPMNLabel><dc:Bounds x="945" y="302" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f21_di" bpmnElement="hebat_f21"><di:waypoint x="2285" y="330" /><di:waypoint x="2350" y="330" /><bpmndi:BPMNLabel><dc:Bounds x="2278" y="302" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f22_di" bpmnElement="hebat_f22"><di:waypoint x="2470" y="330" /><di:waypoint x="2478" y="330" /><di:waypoint x="2478" y="730" /><di:waypoint x="2500" y="730" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="hebat_f23_di" bpmnElement="hebat_f23"><di:waypoint x="2620" y="730" /><di:waypoint x="2692" y="730" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

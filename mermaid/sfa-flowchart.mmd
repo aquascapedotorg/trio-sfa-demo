@@ -1,0 +1,24 @@
+flowchart TD
+  A(["Mulai hari"]) --> B["Login"] --> C["Sync data dari DMS"] --> D["Berita harian"] --> E["Dashboard: call plan, hit rate, target"]
+  E --> F["Persiapan: cek rute dan stok"]
+  F --> G{"Pelanggan dalam rute?"}
+  G -- Ya --> G1["Pilih dari call plan"] --> G2["Petunjuk arah Google Maps"] --> K
+  G -- Tidak --> H{"Pelanggan sudah terdaftar?"}
+  H -- Ya --> K
+  H -- Tidak --> H1["Daftarkan RRO baru dan ambil foto"] --> K
+  K["Check in: lokasi dan waktu"] --> L["Info pelanggan dan input sisa stok"]
+  L --> N{"Ada retur?"}
+  N -- Ya --> N1["Input retur beli dan submit"] --> O
+  N -- Tidak --> O{"Ada tagihan?"}
+  O -- Ya --> P{"Pelanggan bayar?"}
+  P -- "Tunai / transfer / giro" --> P1["Catat bayar lunas atau kurang, foto bukti transfer"] --> Q
+  P -- "Gagal bayar" --> P2["Reschedule tanggal penagihan"] --> Q
+  O -- Tidak --> Q{"Ada order?"}
+  Q -- Ya --> R["Input produk dan jumlah"] --> R1["Pilih bayar: tunai, transfer, kredit"] --> R2["Submit penjualan"] --> R3["Cetak faktur, tanda tangan pelanggan"] --> S
+  Q -- Tidak --> S["Check out"]
+  S --> T{"Berikutnya"}
+  T -- "Pelanggan lain" --> G
+  T -- Istirahat --> T1["Mulai lalu akhiri istirahat"] --> G
+  T -- "Selesai rute" --> U["Input biaya operasional"]
+  U --> V["Akhiri perjalanan: kembalikan stok, cetak BKB dan summary"]
+  V --> W["Sync transaksi ke DMS"] --> Z(["Selesai"])

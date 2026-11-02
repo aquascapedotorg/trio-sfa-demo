@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="mofi_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="wireframe-rea" exporterVersion="1.0">
+  <bpmn:collaboration id="mofi_collab">
+    <bpmn:participant id="mofi_pool" name="Proses Pengajuan Pembiayaan MOFI (RO App)" processRef="mofi_process" />
+  </bpmn:collaboration>
+  <bpmn:process id="mofi_process" isExecutable="false">
+    <bpmn:laneSet id="mofi_laneset">
+        <bpmn:lane id="mofi_lane0" name="Customer">
+          <bpmn:flowNodeRef>mofi_konfirm</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_cust</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_e_batal</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_ttd</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="mofi_lane1" name="RO (Relationship Officer)">
+          <bpmn:flowNodeRef>mofi_s</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_login</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_src</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_review</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_buat</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_src_m</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_kirim</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_resend</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_lengkapi</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_bpkb</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_pantau</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_e_live</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="mofi_lane2" name="Sistem MOFI">
+          <bpmn:flowNodeRef>mofi_consent</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_idcheck</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_kontrak</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_cair</bpmn:flowNodeRef>
+        </bpmn:lane>
+        <bpmn:lane id="mofi_lane3" name="Tim Kredit / Cabang (CA, BM)">
+          <bpmn:flowNodeRef>mofi_analisis</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_hasil</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_deviasi</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_e_tolak</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_verif</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_to</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_dok_to</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_cek_akhir</bpmn:flowNodeRef>
+          <bpmn:flowNodeRef>mofi_g_to_m</bpmn:flowNodeRef>
+        </bpmn:lane>
+    </bpmn:laneSet>
+      <bpmn:startEvent id="mofi_s" name="Ada calon customer"><bpmn:outgoing>mofi_f0</bpmn:outgoing></bpmn:startEvent>
+      <bpmn:userTask id="mofi_login" name="Login nomor HP + OTP"><bpmn:incoming>mofi_f0</bpmn:incoming><bpmn:outgoing>mofi_f1</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="mofi_g_src" name="Sumber pengajuan?"><bpmn:incoming>mofi_f1</bpmn:incoming><bpmn:outgoing>mofi_f2</bpmn:outgoing><bpmn:outgoing>mofi_f3</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="mofi_review" name="Review leads dari DT / Agen"><bpmn:incoming>mofi_f2</bpmn:incoming><bpmn:outgoing>mofi_f4</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="mofi_buat" name="Buat pengajuan: SKU, paket, data customer"><bpmn:incoming>mofi_f3</bpmn:incoming><bpmn:outgoing>mofi_f5</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="mofi_g_src_m"><bpmn:incoming>mofi_f4</bpmn:incoming><bpmn:incoming>mofi_f5</bpmn:incoming><bpmn:outgoing>mofi_f6</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="mofi_kirim" name="Review ringkasan, kirim pengajuan"><bpmn:incoming>mofi_f6</bpmn:incoming><bpmn:outgoing>mofi_f7</bpmn:outgoing></bpmn:userTask>
+      <bpmn:serviceTask id="mofi_consent" name="Kirim permintaan konfirmasi ke customer"><bpmn:incoming>mofi_f7</bpmn:incoming><bpmn:incoming>mofi_f11</bpmn:incoming><bpmn:outgoing>mofi_f8</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:manualTask id="mofi_konfirm" name="Konfirmasi pengajuan"><bpmn:incoming>mofi_f8</bpmn:incoming><bpmn:outgoing>mofi_f9</bpmn:outgoing></bpmn:manualTask>
+      <bpmn:exclusiveGateway id="mofi_g_cust" name="Respons?"><bpmn:incoming>mofi_f9</bpmn:incoming><bpmn:outgoing>mofi_f10</bpmn:outgoing><bpmn:outgoing>mofi_f12</bpmn:outgoing><bpmn:outgoing>mofi_f13</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="mofi_resend" name="Kirim ulang / ganti nomor HP"><bpmn:incoming>mofi_f10</bpmn:incoming><bpmn:outgoing>mofi_f11</bpmn:outgoing></bpmn:userTask>
+      <bpmn:endEvent id="mofi_e_batal" name="Dibatalkan"><bpmn:incoming>mofi_f12</bpmn:incoming></bpmn:endEvent>
+      <bpmn:serviceTask id="mofi_idcheck" name="Pengecekan identitas (first block)"><bpmn:incoming>mofi_f13</bpmn:incoming><bpmn:outgoing>mofi_f14</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:userTask id="mofi_analisis" name="Analisis kredit oleh CA"><bpmn:incoming>mofi_f14</bpmn:incoming><bpmn:incoming>mofi_f17</bpmn:incoming><bpmn:outgoing>mofi_f15</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="mofi_g_hasil" name="Hasil analisis?"><bpmn:incoming>mofi_f15</bpmn:incoming><bpmn:outgoing>mofi_f16</bpmn:outgoing><bpmn:outgoing>mofi_f18</bpmn:outgoing><bpmn:outgoing>mofi_f19</bpmn:outgoing><bpmn:outgoing>mofi_f20</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="mofi_lengkapi" name="Lengkapi data tambahan"><bpmn:incoming>mofi_f16</bpmn:incoming><bpmn:outgoing>mofi_f17</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="mofi_deviasi" name="Pengajuan deviasi"><bpmn:incoming>mofi_f18</bpmn:incoming><bpmn:outgoing>mofi_f21</bpmn:outgoing></bpmn:userTask>
+      <bpmn:endEvent id="mofi_e_tolak" name="Ditolak"><bpmn:incoming>mofi_f19</bpmn:incoming></bpmn:endEvent>
+      <bpmn:serviceTask id="mofi_kontrak" name="Kirim perjanjian pembiayaan"><bpmn:incoming>mofi_f20</bpmn:incoming><bpmn:incoming>mofi_f21</bpmn:incoming><bpmn:outgoing>mofi_f22</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:manualTask id="mofi_ttd" name="Tanda tangan perjanjian"><bpmn:incoming>mofi_f22</bpmn:incoming><bpmn:outgoing>mofi_f23</bpmn:outgoing></bpmn:manualTask>
+      <bpmn:userTask id="mofi_verif" name="Verifikasi akhir"><bpmn:incoming>mofi_f23</bpmn:incoming><bpmn:outgoing>mofi_f24</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="mofi_g_to" name="Take over?"><bpmn:incoming>mofi_f24</bpmn:incoming><bpmn:outgoing>mofi_f25</bpmn:outgoing><bpmn:outgoing>mofi_f26</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:userTask id="mofi_dok_to" name="Tunggu dokumen take over dari BM"><bpmn:incoming>mofi_f25</bpmn:incoming><bpmn:outgoing>mofi_f27</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="mofi_cek_akhir" name="Pengecekan akhir sebelum Go Live"><bpmn:incoming>mofi_f26</bpmn:incoming><bpmn:outgoing>mofi_f29</bpmn:outgoing></bpmn:userTask>
+      <bpmn:userTask id="mofi_bpkb" name="Konfirmasi penyerahan BPKB ke cabang"><bpmn:incoming>mofi_f27</bpmn:incoming><bpmn:outgoing>mofi_f28</bpmn:outgoing></bpmn:userTask>
+      <bpmn:exclusiveGateway id="mofi_g_to_m"><bpmn:incoming>mofi_f28</bpmn:incoming><bpmn:incoming>mofi_f29</bpmn:incoming><bpmn:outgoing>mofi_f30</bpmn:outgoing></bpmn:exclusiveGateway>
+      <bpmn:serviceTask id="mofi_cair" name="Pencairan dana (Go Live)"><bpmn:incoming>mofi_f30</bpmn:incoming><bpmn:outgoing>mofi_f31</bpmn:outgoing></bpmn:serviceTask>
+      <bpmn:userTask id="mofi_pantau" name="Pantau status, unduh kontrak"><bpmn:incoming>mofi_f31</bpmn:incoming><bpmn:outgoing>mofi_f32</bpmn:outgoing></bpmn:userTask>
+      <bpmn:endEvent id="mofi_e_live" name="Go Live"><bpmn:incoming>mofi_f32</bpmn:incoming></bpmn:endEvent>
+      <bpmn:sequenceFlow id="mofi_f0" sourceRef="mofi_s" targetRef="mofi_login" />
+      <bpmn:sequenceFlow id="mofi_f1" sourceRef="mofi_login" targetRef="mofi_g_src" />
+      <bpmn:sequenceFlow id="mofi_f2" sourceRef="mofi_g_src" targetRef="mofi_review" name="Leads DT" />
+      <bpmn:sequenceFlow id="mofi_f3" sourceRef="mofi_g_src" targetRef="mofi_buat" name="Buat sendiri" />
+      <bpmn:sequenceFlow id="mofi_f4" sourceRef="mofi_review" targetRef="mofi_g_src_m" />
+      <bpmn:sequenceFlow id="mofi_f5" sourceRef="mofi_buat" targetRef="mofi_g_src_m" />
+      <bpmn:sequenceFlow id="mofi_f6" sourceRef="mofi_g_src_m" targetRef="mofi_kirim" />
+      <bpmn:sequenceFlow id="mofi_f7" sourceRef="mofi_kirim" targetRef="mofi_consent" />
+      <bpmn:sequenceFlow id="mofi_f8" sourceRef="mofi_consent" targetRef="mofi_konfirm" />
+      <bpmn:sequenceFlow id="mofi_f9" sourceRef="mofi_konfirm" targetRef="mofi_g_cust" />
+      <bpmn:sequenceFlow id="mofi_f10" sourceRef="mofi_g_cust" targetRef="mofi_resend" name="Tidak merespons" />
+      <bpmn:sequenceFlow id="mofi_f11" sourceRef="mofi_resend" targetRef="mofi_consent" />
+      <bpmn:sequenceFlow id="mofi_f12" sourceRef="mofi_g_cust" targetRef="mofi_e_batal" name="Menolak" />
+      <bpmn:sequenceFlow id="mofi_f13" sourceRef="mofi_g_cust" targetRef="mofi_idcheck" name="Setuju" />
+      <bpmn:sequenceFlow id="mofi_f14" sourceRef="mofi_idcheck" targetRef="mofi_analisis" />
+      <bpmn:sequenceFlow id="mofi_f15" sourceRef="mofi_analisis" targetRef="mofi_g_hasil" />
+      <bpmn:sequenceFlow id="mofi_f16" sourceRef="mofi_g_hasil" targetRef="mofi_lengkapi" name="Data kurang" />
+      <bpmn:sequenceFlow id="mofi_f17" sourceRef="mofi_lengkapi" targetRef="mofi_analisis" />
+      <bpmn:sequenceFlow id="mofi_f18" sourceRef="mofi_g_hasil" targetRef="mofi_deviasi" name="Deviasi" />
+      <bpmn:sequenceFlow id="mofi_f19" sourceRef="mofi_g_hasil" targetRef="mofi_e_tolak" name="Ditolak" />
+      <bpmn:sequenceFlow id="mofi_f20" sourceRef="mofi_g_hasil" targetRef="mofi_kontrak" name="Disetujui" />
+      <bpmn:sequenceFlow id="mofi_f21" sourceRef="mofi_deviasi" targetRef="mofi_kontrak" />
+      <bpmn:sequenceFlow id="mofi_f22" sourceRef="mofi_kontrak" targetRef="mofi_ttd" />
+      <bpmn:sequenceFlow id="mofi_f23" sourceRef="mofi_ttd" targetRef="mofi_verif" />
+      <bpmn:sequenceFlow id="mofi_f24" sourceRef="mofi_verif" targetRef="mofi_g_to" />
+      <bpmn:sequenceFlow id="mofi_f25" sourceRef="mofi_g_to" targetRef="mofi_dok_to" name="Ya" />
+      <bpmn:sequenceFlow id="mofi_f26" sourceRef="mofi_g_to" targetRef="mofi_cek_akhir" name="Tidak" />
+      <bpmn:sequenceFlow id="mofi_f27" sourceRef="mofi_dok_to" targetRef="mofi_bpkb" />
+      <bpmn:sequenceFlow id="mofi_f28" sourceRef="mofi_bpkb" targetRef="mofi_g_to_m" />
+      <bpmn:sequenceFlow id="mofi_f29" sourceRef="mofi_cek_akhir" targetRef="mofi_g_to_m" />
+      <bpmn:sequenceFlow id="mofi_f30" sourceRef="mofi_g_to_m" targetRef="mofi_cair" />
+      <bpmn:sequenceFlow id="mofi_f31" sourceRef="mofi_cair" targetRef="mofi_pantau" />
+      <bpmn:sequenceFlow id="mofi_f32" sourceRef="mofi_pantau" targetRef="mofi_e_live" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="mofi_diagram">
+    <bpmndi:BPMNPlane id="mofi_plane" bpmnElement="mofi_collab">
+      <bpmndi:BPMNShape id="mofi_pool_di" bpmnElement="mofi_pool" isHorizontal="true"><dc:Bounds x="0" y="0" width="3570" height="720" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_lane0_di" bpmnElement="mofi_lane0" isHorizontal="true"><dc:Bounds x="30" y="0" width="3540" height="150" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_lane1_di" bpmnElement="mofi_lane1" isHorizontal="true"><dc:Bounds x="30" y="150" width="3540" height="190" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_lane2_di" bpmnElement="mofi_lane2" isHorizontal="true"><dc:Bounds x="30" y="340" width="3540" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_lane3_di" bpmnElement="mofi_lane3" isHorizontal="true"><dc:Bounds x="30" y="480" width="3540" height="240" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_s_di" bpmnElement="mofi_s"><dc:Bounds x="142" y="227" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="110" y="267" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_login_di" bpmnElement="mofi_login"><dc:Bounds x="250" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_src_di" bpmnElement="mofi_g_src" isMarkerVisible="true"><dc:Bounds x="435" y="220" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="410" y="274" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_review_di" bpmnElement="mofi_review"><dc:Bounds x="550" y="161" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_buat_di" bpmnElement="mofi_buat"><dc:Bounds x="550" y="257" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_src_m_di" bpmnElement="mofi_g_src_m" isMarkerVisible="true"><dc:Bounds x="735" y="220" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_kirim_di" bpmnElement="mofi_kirim"><dc:Bounds x="850" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_consent_di" bpmnElement="mofi_consent"><dc:Bounds x="1000" y="374" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_konfirm_di" bpmnElement="mofi_konfirm"><dc:Bounds x="1150" y="39" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_cust_di" bpmnElement="mofi_g_cust" isMarkerVisible="true"><dc:Bounds x="1335" y="50" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1310" y="104" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_resend_di" bpmnElement="mofi_resend"><dc:Bounds x="1300" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_e_batal_di" bpmnElement="mofi_e_batal"><dc:Bounds x="1492" y="57" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1460" y="97" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_idcheck_di" bpmnElement="mofi_idcheck"><dc:Bounds x="1450" y="374" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_analisis_di" bpmnElement="mofi_analisis"><dc:Bounds x="1600" y="564" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_hasil_di" bpmnElement="mofi_g_hasil" isMarkerVisible="true"><dc:Bounds x="1785" y="575" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1760" y="629" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_lengkapi_di" bpmnElement="mofi_lengkapi"><dc:Bounds x="1750" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_deviasi_di" bpmnElement="mofi_deviasi"><dc:Bounds x="1900" y="640" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_e_tolak_di" bpmnElement="mofi_e_tolak"><dc:Bounds x="1942" y="582" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1910" y="622" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_kontrak_di" bpmnElement="mofi_kontrak"><dc:Bounds x="2050" y="374" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_ttd_di" bpmnElement="mofi_ttd"><dc:Bounds x="2200" y="39" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_verif_di" bpmnElement="mofi_verif"><dc:Bounds x="2350" y="564" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_to_di" bpmnElement="mofi_g_to" isMarkerVisible="true"><dc:Bounds x="2535" y="575" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2510" y="629" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_dok_to_di" bpmnElement="mofi_dok_to"><dc:Bounds x="2650" y="512" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_cek_akhir_di" bpmnElement="mofi_cek_akhir"><dc:Bounds x="2650" y="616" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_bpkb_di" bpmnElement="mofi_bpkb"><dc:Bounds x="2800" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_g_to_m_di" bpmnElement="mofi_g_to_m" isMarkerVisible="true"><dc:Bounds x="2985" y="575" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_cair_di" bpmnElement="mofi_cair"><dc:Bounds x="3100" y="374" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_pantau_di" bpmnElement="mofi_pantau"><dc:Bounds x="3250" y="209" width="120" height="72" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="mofi_e_live_di" bpmnElement="mofi_e_live"><dc:Bounds x="3442" y="227" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="3410" y="267" width="100" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="mofi_f0_di" bpmnElement="mofi_f0"><di:waypoint x="178" y="245" /><di:waypoint x="250" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f1_di" bpmnElement="mofi_f1"><di:waypoint x="370" y="245" /><di:waypoint x="435" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f2_di" bpmnElement="mofi_f2"><di:waypoint x="460" y="220" /><di:waypoint x="460" y="197" /><di:waypoint x="550" y="197" /><bpmndi:BPMNLabel><dc:Bounds x="465" y="169" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f3_di" bpmnElement="mofi_f3"><di:waypoint x="460" y="270" /><di:waypoint x="460" y="293" /><di:waypoint x="550" y="293" /><bpmndi:BPMNLabel><dc:Bounds x="465" y="265" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f4_di" bpmnElement="mofi_f4"><di:waypoint x="670" y="197" /><di:waypoint x="760" y="197" /><di:waypoint x="760" y="220" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f5_di" bpmnElement="mofi_f5"><di:waypoint x="670" y="293" /><di:waypoint x="760" y="293" /><di:waypoint x="760" y="270" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f6_di" bpmnElement="mofi_f6"><di:waypoint x="785" y="245" /><di:waypoint x="850" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f7_di" bpmnElement="mofi_f7"><di:waypoint x="970" y="245" /><di:waypoint x="978" y="245" /><di:waypoint x="978" y="410" /><di:waypoint x="1000" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f8_di" bpmnElement="mofi_f8"><di:waypoint x="1120" y="410" /><di:waypoint x="1128" y="410" /><di:waypoint x="1128" y="75" /><di:waypoint x="1150" y="75" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f9_di" bpmnElement="mofi_f9"><di:waypoint x="1270" y="75" /><di:waypoint x="1335" y="75" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f10_di" bpmnElement="mofi_f10"><di:waypoint x="1360" y="100" /><di:waypoint x="1360" y="209" /><bpmndi:BPMNLabel><dc:Bounds x="1320" y="137" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f11_di" bpmnElement="mofi_f11"><di:waypoint x="1360" y="281" /><di:waypoint x="1360" y="466" /><di:waypoint x="1060" y="466" /><di:waypoint x="1060" y="446" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f12_di" bpmnElement="mofi_f12"><di:waypoint x="1385" y="75" /><di:waypoint x="1492" y="75" /><bpmndi:BPMNLabel><dc:Bounds x="1399" y="47" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f13_di" bpmnElement="mofi_f13"><di:waypoint x="1385" y="75" /><di:waypoint x="1401" y="75" /><di:waypoint x="1401" y="410" /><di:waypoint x="1450" y="410" /><bpmndi:BPMNLabel><dc:Bounds x="1386" y="382" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f14_di" bpmnElement="mofi_f14"><di:waypoint x="1570" y="410" /><di:waypoint x="1578" y="410" /><di:waypoint x="1578" y="600" /><di:waypoint x="1600" y="600" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f15_di" bpmnElement="mofi_f15"><di:waypoint x="1720" y="600" /><di:waypoint x="1785" y="600" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f16_di" bpmnElement="mofi_f16"><di:waypoint x="1810" y="575" /><di:waypoint x="1810" y="281" /><bpmndi:BPMNLabel><dc:Bounds x="1770" y="410" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f17_di" bpmnElement="mofi_f17"><di:waypoint x="1750" y="245" /><di:waypoint x="1660" y="245" /><di:waypoint x="1660" y="564" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f18_di" bpmnElement="mofi_f18"><di:waypoint x="1810" y="625" /><di:waypoint x="1810" y="676" /><di:waypoint x="1900" y="676" /><bpmndi:BPMNLabel><dc:Bounds x="1815" y="648" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f19_di" bpmnElement="mofi_f19"><di:waypoint x="1835" y="600" /><di:waypoint x="1942" y="600" /><bpmndi:BPMNLabel><dc:Bounds x="1849" y="572" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f20_di" bpmnElement="mofi_f20"><di:waypoint x="1835" y="600" /><di:waypoint x="1851" y="600" /><di:waypoint x="1851" y="410" /><di:waypoint x="2050" y="410" /><bpmndi:BPMNLabel><dc:Bounds x="1911" y="382" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f21_di" bpmnElement="mofi_f21"><di:waypoint x="2020" y="676" /><di:waypoint x="2028" y="676" /><di:waypoint x="2028" y="410" /><di:waypoint x="2050" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f22_di" bpmnElement="mofi_f22"><di:waypoint x="2170" y="410" /><di:waypoint x="2178" y="410" /><di:waypoint x="2178" y="75" /><di:waypoint x="2200" y="75" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f23_di" bpmnElement="mofi_f23"><di:waypoint x="2320" y="75" /><di:waypoint x="2328" y="75" /><di:waypoint x="2328" y="600" /><di:waypoint x="2350" y="600" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f24_di" bpmnElement="mofi_f24"><di:waypoint x="2470" y="600" /><di:waypoint x="2535" y="600" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f25_di" bpmnElement="mofi_f25"><di:waypoint x="2560" y="575" /><di:waypoint x="2560" y="548" /><di:waypoint x="2650" y="548" /><bpmndi:BPMNLabel><dc:Bounds x="2565" y="520" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f26_di" bpmnElement="mofi_f26"><di:waypoint x="2560" y="625" /><di:waypoint x="2560" y="652" /><di:waypoint x="2650" y="652" /><bpmndi:BPMNLabel><dc:Bounds x="2565" y="624" width="80" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f27_di" bpmnElement="mofi_f27"><di:waypoint x="2770" y="548" /><di:waypoint x="2778" y="548" /><di:waypoint x="2778" y="245" /><di:waypoint x="2800" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f28_di" bpmnElement="mofi_f28"><di:waypoint x="2920" y="245" /><di:waypoint x="3010" y="245" /><di:waypoint x="3010" y="575" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f29_di" bpmnElement="mofi_f29"><di:waypoint x="2770" y="652" /><di:waypoint x="3010" y="652" /><di:waypoint x="3010" y="625" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f30_di" bpmnElement="mofi_f30"><di:waypoint x="3010" y="575" /><di:waypoint x="3010" y="410" /><di:waypoint x="3100" y="410" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f31_di" bpmnElement="mofi_f31"><di:waypoint x="3220" y="410" /><di:waypoint x="3228" y="410" /><di:waypoint x="3228" y="245" /><di:waypoint x="3250" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="mofi_f32_di" bpmnElement="mofi_f32"><di:waypoint x="3370" y="245" /><di:waypoint x="3442" y="245" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
