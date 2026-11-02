@@ -327,9 +327,7 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
     <dl class="method">
       <div><dt>Cara membaca wireframe</dt><dd>Nama section, frame, dan teks layer di Figma dibaca satu per satu, lalu disusun menjadi langkah dan keputusan.</dd></div>
       <div><dt>Flowchart</dt><dd>Urutan layar dan percabangan yang dialami pengguna aplikasi.</dd></div>
-      <div><dt>BPMN</dt><dd>Siapa mengerjakan apa: pengguna, pelanggan, sistem, dan tim pendukung dalam lajur terpisah.</dd></div>
-      <div><dt>Batasan</dt><dd>Hal yang tidak tampak di wireframe ditandai sebagai asumsi dan masuk daftar konfirmasi.</dd></div>
-    </dl>
+      <div><dt>BPMN</dt><dd>Siapa mengerjakan apa: pengguna, pelanggan, sistem, dan tim pendukung dalam lajur terpisah.</dd></div>    </dl>
   </div>
 
   <section class="wrap compare" id="perbandingan" aria-labelledby="cmp-title">

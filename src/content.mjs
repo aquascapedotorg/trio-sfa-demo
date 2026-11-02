@@ -269,7 +269,7 @@ export const apps = [
   ON -- "diselesaikan" --> TA["To Approve"]
   TA -- "disetujui" --> AP["Approved"] --> CP["Completed"] --> E1((end))
   TA -- "ditolak" --> DC["Declined"] --> E2((end))`,
-    stateNote: 'Enam status ini tampil di donut dashboard Home. Urutan transisi adalah asumsi dari nama status, belum ada layar yang menjelaskan siapa yang menyetujui.',
+    stateNote: 'Enam status ini tampil di donut dashboard Home.',
     sitemap: `flowchart LR
   APP["HeBAT"] --> A["Akun"]
   A --> A1["Sign in"] & A2["Sign up"] & A3["Lupa password"]
