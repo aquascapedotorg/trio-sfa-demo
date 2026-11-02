@@ -162,7 +162,6 @@ button.copy:hover { border-color: var(--ink); }
 .copy-status { font-size: var(--step--1); color: var(--muted); }
 pre.code { margin: 0; padding: 12px 14px; max-height: 320px; overflow: auto; border-top: 1px solid var(--line); white-space: pre; }
 
-ol.questions { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 80ch; }
 footer { padding-block: 40px; color: var(--muted); font-size: var(--step--1); }
 footer p { max-width: 80ch; margin: 0 0 6px; }
 
@@ -227,7 +226,7 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
   <div class="wrap intro">
     <p class="eyebrow">Peta proses bisnis · disusun dari wireframe Figma</p>
     <h1>Bagaimana MOFI, SFA, dan HeBAT bekerja di lapangan</h1>
-    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
+    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, dan peta layar. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
     <dl class="method">
       <div><dt>Cara membaca wireframe</dt><dd>Nama section, frame, dan teks layer di Figma dibaca satu per satu, lalu disusun menjadi langkah dan keputusan.</dd></div>
       <div><dt>Flowchart</dt><dd>Urutan layar dan percabangan yang dialami pengguna aplikasi.</dd></div>
@@ -962,10 +961,6 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
 </svg></div>
   </div>
 
-  <div class="block" id="mofi-tanya">
-    <h3>Hal yang perlu dikonfirmasi</h3>
-    <ol class="questions"><li>Apakah ada SLA (batas waktu) baku untuk konfirmasi customer dan tanda tangan perjanjian? Wireframe menampilkan timer tanpa angka.</li><li>Siapa yang memutus deviasi, CA atau BM? Wireframe hanya menampilkan layar &quot;Pengajuan Deviasi&quot;.</li><li>Leads dari Non-RO (halaman terpisah di Transaction Detail) mengikuti alur yang sama atau ada perbedaan hak akses?</li></ol>
-  </div>
 </section>
 
 <section class="app" id="sfa" data-app="sfa" aria-labelledby="sfa-title">
@@ -1588,10 +1583,6 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
 </svg></div>
   </div>
 
-  <div class="block" id="sfa-tanya">
-    <h3>Hal yang perlu dikonfirmasi</h3>
-    <ol class="questions"><li>Di Figma, halaman User Story 1 dan 2 berisi daftar US yang hampir sama. Mana yang berlaku untuk tahap ini?</li><li>Apakah approval diperlukan untuk penjualan kredit atau reschedule tagihan? Wireframe tidak menampilkan layar persetujuan.</li><li>Mutasi stok antar sales: apakah perlu supervisor, atau cukup konfirmasi sales penerima (US-022C)?</li></ol>
-  </div>
 </section>
 
 <section class="app" id="hebat" data-app="hebat" aria-labelledby="hebat-title">
@@ -2133,10 +2124,6 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
 </svg></div>
   </div>
 
-  <div class="block" id="hebat-tanya">
-    <h3>Hal yang perlu dikonfirmasi</h3>
-    <ol class="questions"><li>Siapa yang mengubah status To Approve menjadi Approved atau Declined, dan apakah itu untuk visit, absensi, atau pengeluaran?</li><li>Sign up dibuka untuk umum atau akun dibuat admin? Untuk aplikasi internal biasanya admin.</li><li>Banyak frame berstatus &quot;On progress&quot;. Apakah prototipe ini sudah final?</li></ol>
-  </div>
 </section>
 </main>
 

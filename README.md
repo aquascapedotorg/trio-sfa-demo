@@ -6,7 +6,7 @@ Peta proses bisnis tiga aplikasi lapangan, disusun dari wireframe Figma:
 - **SFA** (NNA): kunjungan harian sales, stok, penagihan, penjualan, sync ke DMS.
 - **HeBAT** (BAT): absensi, rute, dan kunjungan outlet.
 
-Per aplikasi tersedia flowchart, BPMN, siklus status, peta layar, dan daftar hal yang perlu dikonfirmasi.
+Per aplikasi tersedia flowchart, BPMN, siklus status, dan peta layar.
 
 ## Isi repo
 

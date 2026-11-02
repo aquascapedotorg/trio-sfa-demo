@@ -94,10 +94,6 @@ const appSection = (a, idx) => `
     <div class="diagram flow-wrap" tabindex="0" aria-label="Peta layar, geser untuk melihat seluruhnya">${renderFlow(a.sitemap, a.id + '-map')}</div>
   </div>
 
-  <div class="block" id="${a.id}-tanya">
-    <h3>Hal yang perlu dikonfirmasi</h3>
-    <ol class="questions">${a.questions.map(q => `<li>${esc(q)}</li>`).join('')}</ol>
-  </div>
 </section>`;
 
 const html = `<title>Peta Proses MOFI, SFA, HeBAT</title>
@@ -258,7 +254,6 @@ button.copy:hover { border-color: var(--ink); }
 .copy-status { font-size: var(--step--1); color: var(--muted); }
 pre.code { margin: 0; padding: 12px 14px; max-height: 320px; overflow: auto; border-top: 1px solid var(--line); white-space: pre; }
 
-ol.questions { margin: 0; padding-left: 22px; display: grid; gap: 6px; max-width: 80ch; }
 footer { padding-block: 40px; color: var(--muted); font-size: var(--step--1); }
 footer p { max-width: 80ch; margin: 0 0 6px; }
 
@@ -323,7 +318,7 @@ body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 
   <div class="wrap intro">
     <p class="eyebrow">Peta proses bisnis · disusun dari wireframe Figma</p>
     <h1>Bagaimana MOFI, SFA, dan HeBAT bekerja di lapangan</h1>
-    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
+    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, dan peta layar. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
     <dl class="method">
       <div><dt>Cara membaca wireframe</dt><dd>Nama section, frame, dan teks layer di Figma dibaca satu per satu, lalu disusun menjadi langkah dan keputusan.</dd></div>
       <div><dt>Flowchart</dt><dd>Urutan layar dan percabangan yang dialami pengguna aplikasi.</dd></div>
