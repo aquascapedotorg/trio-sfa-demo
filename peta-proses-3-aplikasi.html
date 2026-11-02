@@ -2,27 +2,34 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap">
 <style>
 /* Layout: dokumen kerja BA; header lengket dengan lompatan per aplikasi, tiap aplikasi satu bab bertingkat, diagram lebar di wadah gulir sendiri. */
+/* Palet PPU (PT. Perkasa Pilar Utama): merah brand sebagai satu-satunya warna primer, netral slate. */
 :root {
-  --bg: #f3f6f7;
+  --bg: #f8fafc;
   --surface: #ffffff;
-  --ink: #14202a;
-  --muted: #546573;
-  --line: #d6dee3;
-  --line-strong: #b4c1ca;
-  --lane: #f7fafb;
-  --lane-alt: #eef3f5;
-  --flow: #3f5262;
-  --mofi: #1b5fcf;
-  --sfa: #b8560f;
-  --hebat: #2a3f93;
-  --accent: var(--mofi);
-  --start: #1f7a4d;
-  --end: #b42318;
-  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ink: #1e293b;
+  --body: #334155;
+  --muted: #64748b;
+  --slate: #475569;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --lane: #f8fafc;
+  --lane-alt: #f1f5f9;
+  --flow: #475569;
+  --red: #c0081d;
+  --red-soft: #fef2f2;
+  --red-line: #fca5a5;
+  --red-bar: #c0081d;
+  --mofi: var(--red);
+  --sfa: var(--red);
+  --hebat: var(--red);
+  --accent: var(--red);
+  --start: #10b981;
+  --end: #c0081d;
+  --font-display: "Lato", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-body: "Lato", "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
   --step--1: 0.8125rem;
   --step-0: 0.9375rem;
@@ -32,16 +39,16 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f1519; --surface: #151d23; --ink: #e3eaee; --muted: #93a4b0; --line: #26323b; --line-strong: #3a4954;
-    --lane: #131b20; --lane-alt: #172128; --flow: #a9bac6;
-    --mofi: #7fa9f2; --sfa: #f0a463; --hebat: #9eaef0; --start: #5fc995; --end: #f08a80;
+    --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
+    --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
+    --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0f1519; --surface: #151d23; --ink: #e3eaee; --muted: #93a4b0; --line: #26323b; --line-strong: #3a4954;
-  --lane: #131b20; --lane-alt: #172128; --flow: #a9bac6;
-  --mofi: #7fa9f2; --sfa: #f0a463; --hebat: #9eaef0; --start: #5fc995; --end: #f08a80;
+  --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
+  --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
+  --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -76,13 +83,11 @@ code, .code { font-family: var(--font-mono); font-size: var(--step--1); }
 .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
 table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: var(--step--1); }
 th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-thead th { font-family: var(--font-display); font-weight: 600; font-size: var(--step-0); background: var(--lane-alt); }
+thead th { font-family: var(--font-display); font-weight: 700; font-size: var(--step-0); background: var(--red-bar); color: #ffffff; border-bottom: 0; }
 tbody tr:last-child > * { border-bottom: 0; }
-tbody th { font-weight: 600; }
+tbody th { font-weight: 700; color: var(--red); }
+td { color: var(--body); }
 td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--muted); width: 3.5em; }
-.compare thead th:nth-child(2) { box-shadow: inset 0 -3px 0 var(--mofi); }
-.compare thead th:nth-child(3) { box-shadow: inset 0 -3px 0 var(--sfa); }
-.compare thead th:nth-child(4) { box-shadow: inset 0 -3px 0 var(--hebat); }
 
 .app { --accent: var(--c); border-top: 1px solid var(--line); scroll-margin-top: 60px; }
 .app[data-app="mofi"], [data-app="mofi"] { --c: var(--mofi); }
