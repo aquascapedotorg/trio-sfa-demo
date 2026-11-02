@@ -209,7 +209,7 @@ export const apps = [
       ['Check out dan akhir hari', 'Check out, input biaya operasional, kembalikan stok, sync ke DMS.', 'Rekonsiliasi harian tanpa input ulang di kantor.'],
     ],
     questions: [
-      'Halaman User Story 1 dan 2 berisi daftar US yang hampir sama. Mana yang berlaku untuk demo?',
+      'Di Figma, halaman User Story 1 dan 2 berisi daftar US yang hampir sama. Mana yang berlaku untuk tahap ini?',
       'Apakah approval diperlukan untuk penjualan kredit atau reschedule tagihan? Wireframe tidak menampilkan layar persetujuan.',
       'Mutasi stok antar sales: apakah perlu supervisor, atau cukup konfirmasi sales penerima (US-022C)?',
     ],
@@ -292,7 +292,7 @@ export const apps = [
     questions: [
       'Siapa yang mengubah status To Approve menjadi Approved atau Declined, dan apakah itu untuk visit, absensi, atau pengeluaran?',
       'Sign up dibuka untuk umum atau akun dibuat admin? Untuk aplikasi internal biasanya admin.',
-      'Banyak frame berstatus "On progress". Apakah prototipe ini sudah final untuk demo?',
+      'Banyak frame berstatus "On progress". Apakah prototipe ini sudah final?',
     ],
   },
 ];

@@ -60,7 +60,7 @@ const appSection = (a, idx) => `
       </div>
     </div>
     <div class="value">
-      <h4>Nilai bisnis yang ditunjukkan saat demo</h4>
+      <h4>Nilai bisnis</h4>
       <ul>${a.value.map(v => `<li>${esc(v)}</li>`).join('')}</ul>
     </div>
   </div>
@@ -73,7 +73,7 @@ const appSection = (a, idx) => `
 
   <div class="block" id="${a.id}-bpmn">
     <h3>BPMN</h3>
-    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/${a.id}.bpmn</code> bisa dibuka di Camunda Modeler atau demo.bpmn.io.</p>
+    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/${a.id}.bpmn</code> bisa dibuka di Camunda Modeler atau bpmn.io.</p>
     ${legend}
     <div class="diagram bpmn-wrap" tabindex="0" aria-label="Diagram BPMN, geser ke samping untuk melihat seluruhnya">${built[a.id].svg}</div>
     <details class="xml">
@@ -94,18 +94,8 @@ const appSection = (a, idx) => `
     <div class="diagram flow-wrap" tabindex="0" aria-label="Peta layar, geser untuk melihat seluruhnya">${renderFlow(a.sitemap, a.id + '-map')}</div>
   </div>
 
-  <div class="block" id="${a.id}-demo">
-    <h3>Naskah demo</h3>
-    <div class="table-wrap">
-      <table class="demo">
-        <thead><tr><th scope="col">Urutan</th><th scope="col">Layar</th><th scope="col">Yang ditunjukkan</th><th scope="col">Pesan untuk klien</th></tr></thead>
-        <tbody>${a.demo.map(([s, show, msg], i) => `<tr><td class="num">${i + 1}</td><th scope="row">${esc(s)}</th><td>${esc(show)}</td><td>${esc(msg)}</td></tr>`).join('')}</tbody>
-      </table>
-    </div>
-  </div>
-
   <div class="block" id="${a.id}-tanya">
-    <h3>Perlu dikonfirmasi ke klien</h3>
+    <h3>Hal yang perlu dikonfirmasi</h3>
     <ol class="questions">${a.questions.map(q => `<li>${esc(q)}</li>`).join('')}</ol>
   </div>
 </section>`;
@@ -117,9 +107,9 @@ const html = `<title>Peta Proses MOFI, SFA, HeBAT</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap">
 <style>
 /* Layout: dokumen kerja BA; header lengket dengan lompatan per aplikasi, tiap aplikasi satu bab bertingkat, diagram lebar di wadah gulir sendiri. */
-/* Palet PPU (PT. Perkasa Pilar Utama): merah brand sebagai satu-satunya warna primer, netral slate. */
+/* Palet PPU (PT. Perkasa Pilar Utama) di latar putih: merah brand sebagai satu-satunya warna primer, netral slate. Satu tema saja. */
 :root {
-  --bg: #f8fafc;
+  --bg: #ffffff;
   --surface: #ffffff;
   --ink: #1e293b;
   --body: #334155;
@@ -149,20 +139,7 @@ const html = `<title>Peta Proses MOFI, SFA, HeBAT</title>
   --step-2: 1.5rem;
   --step-3: 2.125rem;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
-    --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
-    --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
-  --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
-  --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
-  color-scheme: dark;
-}
+:root { color-scheme: light; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
@@ -306,9 +283,9 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 
 <main>
   <div class="wrap intro">
-    <p class="eyebrow">Bahan demo klien · disusun dari wireframe Figma</p>
+    <p class="eyebrow">Peta proses bisnis · disusun dari wireframe Figma</p>
     <h1>Bagaimana MOFI, SFA, dan HeBAT bekerja di lapangan</h1>
-    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, naskah demo, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
+    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
     <dl class="method">
       <div><dt>Cara membaca wireframe</dt><dd>Nama section, frame, dan teks layer di Figma dibaca satu per satu, lalu disusun menjadi langkah dan keputusan.</dd></div>
       <div><dt>Flowchart</dt><dd>Urutan layar dan percabangan yang dialami pengguna aplikasi.</dd></div>
@@ -352,6 +329,11 @@ document.querySelectorAll('button.copy').forEach(btn => {
 `;
 
 writeFileSync(join(root, 'peta-proses-3-aplikasi.html'), html);
+// catatan presenter: hanya untuk pembawa materi, tidak ditampilkan dan tidak di-commit
+writeFileSync(join(root, 'catatan-presenter.md'), `# Catatan Presenter\n\nUrutan layar yang ditunjukkan dan pesan bisnis per aplikasi. Tidak tampil di halaman.\n${apps.map(a =>
+  `\n## ${a.name} (${a.client})\n\n| Urutan | Layar | Yang ditunjukkan | Pesan bisnis |\n| --- | --- | --- | --- |\n${
+    a.demo.map(([s, show, msg], i) => `| ${i + 1} | ${s} | ${show} | ${msg} |`).join('\n')}\n\nPertanyaan yang perlu diajukan:\n\n${
+    a.questions.map((q, i) => `${i + 1}. ${q}`).join('\n')}\n`).join('')}`);
 // versi halaman lengkap untuk GitHub Pages (artifact menambahkan kerangka ini sendiri)
 writeFileSync(join(root, 'index.html'), `<!doctype html>
 <html lang="id">

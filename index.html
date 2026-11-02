@@ -11,9 +11,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap">
 <style>
 /* Layout: dokumen kerja BA; header lengket dengan lompatan per aplikasi, tiap aplikasi satu bab bertingkat, diagram lebar di wadah gulir sendiri. */
-/* Palet PPU (PT. Perkasa Pilar Utama): merah brand sebagai satu-satunya warna primer, netral slate. */
+/* Palet PPU (PT. Perkasa Pilar Utama) di latar putih: merah brand sebagai satu-satunya warna primer, netral slate. Satu tema saja. */
 :root {
-  --bg: #f8fafc;
+  --bg: #ffffff;
   --surface: #ffffff;
   --ink: #1e293b;
   --body: #334155;
@@ -43,20 +43,7 @@
   --step-2: 1.5rem;
   --step-3: 2.125rem;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
-    --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
-    --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f172a; --surface: #1e293b; --ink: #f1f5f9; --body: #cbd5e1; --muted: #94a3b8; --slate: #94a3b8;
-  --line: #334155; --line-strong: #475569; --lane: #172033; --lane-alt: #1b2539; --flow: #94a3b8;
-  --red: #f2596a; --red-soft: #3b1219; --red-line: #7f1d1d; --start: #34d399; --end: #f2596a;
-  color-scheme: dark;
-}
+:root { color-scheme: light; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
@@ -200,9 +187,9 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 
 <main>
   <div class="wrap intro">
-    <p class="eyebrow">Bahan demo klien · disusun dari wireframe Figma</p>
+    <p class="eyebrow">Peta proses bisnis · disusun dari wireframe Figma</p>
     <h1>Bagaimana MOFI, SFA, dan HeBAT bekerja di lapangan</h1>
-    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, naskah demo, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
+    <p>Setiap aplikasi punya flowchart alur layar, BPMN per pihak yang terlibat, siklus status, peta layar, dan daftar hal yang perlu dikonfirmasi. Semua diturunkan dari isi wireframe, bukan dari aplikasi yang sudah berjalan.</p>
     <dl class="method">
       <div><dt>Cara membaca wireframe</dt><dd>Nama section, frame, dan teks layer di Figma dibaca satu per satu, lalu disusun menjadi langkah dan keputusan.</dd></div>
       <div><dt>Flowchart</dt><dd>Urutan layar dan percabangan yang dialami pengguna aplikasi.</dd></div>
@@ -246,7 +233,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
       </div>
     </div>
     <div class="value">
-      <h4>Nilai bisnis yang ditunjukkan saat demo</h4>
+      <h4>Nilai bisnis</h4>
       <ul><li>RO tahu pengajuan mana yang butuh tindakan hari ini tanpa menelepon cabang.</li><li>Status pengajuan transparan dari kirim sampai Go Live, termasuk alasan batal dan tolak.</li><li>Data tambahan dikumpulkan bertahap, hanya saat analis kredit memintanya.</li></ul>
     </div>
   </div>
@@ -418,7 +405,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 
   <div class="block" id="mofi-bpmn">
     <h3>BPMN</h3>
-    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/mofi.bpmn</code> bisa dibuka di Camunda Modeler atau demo.bpmn.io.</p>
+    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/mofi.bpmn</code> bisa dibuka di Camunda Modeler atau bpmn.io.</p>
     <ul class="legend" aria-label="Legenda BPMN">
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-start" cx="11" cy="11" r="9"/></svg>Mulai</li>
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-end" cx="11" cy="11" r="9"/></svg>Selesai</li>
@@ -939,18 +926,8 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 </svg></div>
   </div>
 
-  <div class="block" id="mofi-demo">
-    <h3>Naskah demo</h3>
-    <div class="table-wrap">
-      <table class="demo">
-        <thead><tr><th scope="col">Urutan</th><th scope="col">Layar</th><th scope="col">Yang ditunjukkan</th><th scope="col">Pesan untuk klien</th></tr></thead>
-        <tbody><tr><td class="num">1</td><th scope="row">Login</th><td>Masuk dengan nomor HP dan OTP. Tunjukkan kirim ulang OTP dan pesan nomor tidak ditemukan.</td><td>Tanpa password. RO di lapangan cukup pakai nomor HP kantor.</td></tr><tr><td class="num">2</td><th scope="row">Homepage</th><td>Nilai Go Live bulan ini, perbandingan bulan lalu, tiga kartu tugas mendesak.</td><td>RO langsung tahu prioritas hari ini.</td></tr><tr><td class="num">3</td><th scope="row">Review pengajuan dari DT</th><td>Buka kartu &quot;Pengajuan perlu direview&quot;, cek data leads, lanjut ke paket.</td><td>Leads digital tidak tercecer, ada pemilik yang jelas.</td></tr><tr><td class="num">4</td><th scope="row">Buat pengajuan sendiri</th><td>Step 1 sampai 4: SKU kendaraan, paket dan provisi, data customer, review lalu kirim.</td><td>Satu alur terpandu, validasi di tiap langkah.</td></tr><tr><td class="num">5</td><th scope="row">Menunggu konfirmasi customer</th><td>Timer, kirim ulang, ganti nomor HP.</td><td>Customer menyetujui sendiri, jejak persetujuan tercatat.</td></tr><tr><td class="num">6</td><th scope="row">Data tambahan</th><td>Lengkapi grup data yang diminta analis: STNK, BPKB, pasangan, rekening.</td><td>Data diminta hanya saat perlu, beban input awal ringan.</td></tr><tr><td class="num">7</td><th scope="row">Detail status sampai Go Live</th><td>Stepper status, verifikasi akhir, konfirmasi BPKB untuk take over, unduh kontrak.</td><td>Transparansi sampai dana cair, satu layar untuk semua pihak.</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
   <div class="block" id="mofi-tanya">
-    <h3>Perlu dikonfirmasi ke klien</h3>
+    <h3>Hal yang perlu dikonfirmasi</h3>
     <ol class="questions"><li>Apakah ada SLA (batas waktu) baku untuk konfirmasi customer dan tanda tangan perjanjian? Wireframe menampilkan timer tanpa angka.</li><li>Siapa yang memutus deviasi, CA atau BM? Wireframe hanya menampilkan layar &quot;Pengajuan Deviasi&quot;.</li><li>Leads dari Non-RO (halaman terpisah di Transaction Detail) mengikuti alur yang sama atau ada perbedaan hak akses?</li></ol>
   </div>
 </section>
@@ -978,7 +955,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
       </div>
     </div>
     <div class="value">
-      <h4>Nilai bisnis yang ditunjukkan saat demo</h4>
+      <h4>Nilai bisnis</h4>
       <ul><li>Kunjungan terbukti: lokasi dan waktu check in dan check out tersimpan.</li><li>Satu kunjungan menuntaskan stok, retur, tagihan, dan order sekaligus.</li><li>Akhir hari langsung rekonsiliasi: stok kembali, kas tercatat, transaksi masuk DMS.</li></ul>
     </div>
   </div>
@@ -1123,7 +1100,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 
   <div class="block" id="sfa-bpmn">
     <h3>BPMN</h3>
-    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/sfa.bpmn</code> bisa dibuka di Camunda Modeler atau demo.bpmn.io.</p>
+    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/sfa.bpmn</code> bisa dibuka di Camunda Modeler atau bpmn.io.</p>
     <ul class="legend" aria-label="Legenda BPMN">
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-start" cx="11" cy="11" r="9"/></svg>Mulai</li>
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-end" cx="11" cy="11" r="9"/></svg>Selesai</li>
@@ -1575,19 +1552,9 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 </svg></div>
   </div>
 
-  <div class="block" id="sfa-demo">
-    <h3>Naskah demo</h3>
-    <div class="table-wrap">
-      <table class="demo">
-        <thead><tr><th scope="col">Urutan</th><th scope="col">Layar</th><th scope="col">Yang ditunjukkan</th><th scope="col">Pesan untuk klien</th></tr></thead>
-        <tbody><tr><td class="num">1</td><th scope="row">Login dan sync</th><td>Login, sync data, berita harian tampil di carousel.</td><td>Sales selalu bekerja dengan harga dan stok terbaru.</td></tr><tr><td class="num">2</td><th scope="row">Dashboard</th><td>Call plan, hit rate, target, penjualan per produk.</td><td>Target harian terlihat sebelum berangkat.</td></tr><tr><td class="num">3</td><th scope="row">Kunjungan dalam rute</th><td>Pilih pelanggan, buka petunjuk arah, check in.</td><td>Kunjungan terbukti dengan lokasi dan jam.</td></tr><tr><td class="num">4</td><th scope="row">Luar rute</th><td>Check in pelanggan baru, daftarkan RRO dan foto.</td><td>Peluang di jalan tetap tercatat.</td></tr><tr><td class="num">5</td><th scope="row">Di outlet</th><td>Sisa stok, retur, penagihan tunai atau transfer, penjualan, cetak faktur.</td><td>Satu kunjungan, semua transaksi selesai.</td></tr><tr><td class="num">6</td><th scope="row">Check out dan akhir hari</th><td>Check out, input biaya operasional, kembalikan stok, sync ke DMS.</td><td>Rekonsiliasi harian tanpa input ulang di kantor.</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
   <div class="block" id="sfa-tanya">
-    <h3>Perlu dikonfirmasi ke klien</h3>
-    <ol class="questions"><li>Halaman User Story 1 dan 2 berisi daftar US yang hampir sama. Mana yang berlaku untuk demo?</li><li>Apakah approval diperlukan untuk penjualan kredit atau reschedule tagihan? Wireframe tidak menampilkan layar persetujuan.</li><li>Mutasi stok antar sales: apakah perlu supervisor, atau cukup konfirmasi sales penerima (US-022C)?</li></ol>
+    <h3>Hal yang perlu dikonfirmasi</h3>
+    <ol class="questions"><li>Di Figma, halaman User Story 1 dan 2 berisi daftar US yang hampir sama. Mana yang berlaku untuk tahap ini?</li><li>Apakah approval diperlukan untuk penjualan kredit atau reschedule tagihan? Wireframe tidak menampilkan layar persetujuan.</li><li>Mutasi stok antar sales: apakah perlu supervisor, atau cukup konfirmasi sales penerima (US-022C)?</li></ol>
   </div>
 </section>
 
@@ -1614,7 +1581,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
       </div>
     </div>
     <div class="value">
-      <h4>Nilai bisnis yang ditunjukkan saat demo</h4>
+      <h4>Nilai bisnis</h4>
       <ul><li>Absensi dan kunjungan tercatat di satu aplikasi, mudah diaudit.</li><li>Data stok dan order dari outlet masuk saat itu juga, bukan dari laporan mingguan.</li><li>Foto merchandise menjadi bukti eksekusi program di toko.</li></ul>
     </div>
   </div>
@@ -1754,7 +1721,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 
   <div class="block" id="hebat-bpmn">
     <h3>BPMN</h3>
-    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/hebat.bpmn</code> bisa dibuka di Camunda Modeler atau demo.bpmn.io.</p>
+    <p class="note">Proses bisnis per pihak (lajur). File <code>bpmn/hebat.bpmn</code> bisa dibuka di Camunda Modeler atau bpmn.io.</p>
     <ul class="legend" aria-label="Legenda BPMN">
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-start" cx="11" cy="11" r="9"/></svg>Mulai</li>
   <li><svg viewBox="0 0 22 22" width="22" height="22"><circle class="b-event b-end" cx="11" cy="11" r="9"/></svg>Selesai</li>
@@ -2130,19 +2097,9 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
 </svg></div>
   </div>
 
-  <div class="block" id="hebat-demo">
-    <h3>Naskah demo</h3>
-    <div class="table-wrap">
-      <table class="demo">
-        <thead><tr><th scope="col">Urutan</th><th scope="col">Layar</th><th scope="col">Yang ditunjukkan</th><th scope="col">Pesan untuk klien</th></tr></thead>
-        <tbody><tr><td class="num">1</td><th scope="row">Sign in</th><td>Masuk, tunjukkan lupa password dengan kode email.</td><td>Akun pribadi per field force.</td></tr><tr><td class="num">2</td><th scope="row">Home</th><td>Dashboard, donut status, pengingat absen.</td><td>Supervisor dan field force melihat angka yang sama.</td></tr><tr><td class="num">3</td><th scope="row">Absence</th><td>Absen masuk, riwayat, status ditolak.</td><td>Kehadiran terverifikasi sebelum kunjungan.</td></tr><tr><td class="num">4</td><th scope="row">Route dan Visit</th><td>Rute hari ini, daftar outlet 6/10, peta dan jarak, check in.</td><td>Progres harian terlihat per outlet.</td></tr><tr><td class="num">5</td><th scope="row">Visit activity</th><td>Count stock, order capture, education, merchandise dengan foto.</td><td>Data toko dan bukti eksekusi masuk real time.</td></tr><tr><td class="num">6</td><th scope="row">Lanjutkan visit</th><td>Buka visit yang terputus.</td><td>Sinyal hilang atau aplikasi tertutup tidak membuat data hilang.</td></tr></tbody>
-      </table>
-    </div>
-  </div>
-
   <div class="block" id="hebat-tanya">
-    <h3>Perlu dikonfirmasi ke klien</h3>
-    <ol class="questions"><li>Siapa yang mengubah status To Approve menjadi Approved atau Declined, dan apakah itu untuk visit, absensi, atau pengeluaran?</li><li>Sign up dibuka untuk umum atau akun dibuat admin? Untuk aplikasi internal biasanya admin.</li><li>Banyak frame berstatus &quot;On progress&quot;. Apakah prototipe ini sudah final untuk demo?</li></ol>
+    <h3>Hal yang perlu dikonfirmasi</h3>
+    <ol class="questions"><li>Siapa yang mengubah status To Approve menjadi Approved atau Declined, dan apakah itu untuk visit, absensi, atau pengeluaran?</li><li>Sign up dibuka untuk umum atau akun dibuat admin? Untuk aplikasi internal biasanya admin.</li><li>Banyak frame berstatus &quot;On progress&quot;. Apakah prototipe ini sudah final?</li></ol>
   </div>
 </section>
 </main>
