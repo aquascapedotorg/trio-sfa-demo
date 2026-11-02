@@ -173,6 +173,43 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
   .brand { margin-right: 0; width: 100%; }
 }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Mode presentasi: satu bagian per layar, bilah kontrol di bawah, diagram bisa diperbesar dan digeser. */
+.present-start { font: inherit; font-size: var(--step--1); font-weight: 700; padding: 6px 14px; border-radius: 999px; border: 0; background: var(--red-bar); color: #ffffff; cursor: pointer; }
+.present-start:hover { background: #a00718; }
+.pbar { display: none; }
+body.present { overflow: hidden; }
+body.present .topbar, body.present footer { display: none; }
+body.present main > :not(.has-current):not(.is-current) { display: none; }
+body.present .app.has-current { border-top: 0; }
+body.present .app.has-current > :not(.is-current) { display: none; }
+body.present .is-current { box-sizing: border-box; height: calc(100vh - 64px); overflow: auto; padding-block: 28px 16px; }
+body.present .block.is-current { display: flex; flex-direction: column; gap: 12px; max-width: none; padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+body.present .block.is-current:has(.diagram) { overflow: hidden; }
+body.present .block.is-current > .diagram { flex: 1 1 auto; min-height: 0; overflow: auto; cursor: grab; touch-action: none; }
+body.present .block.is-current > .diagram.dragging { cursor: grabbing; user-select: none; }
+body.present .block.is-current > .diagram.flow-wrap { display: flex; }
+body.present .block.is-current > .diagram svg { margin: auto; }
+body.present details.xml { display: none; }
+body.present .app-head.is-current, body.present .intro.is-current { display: grid; align-content: center; }
+body.present .app-head.is-current .app-head-inner { padding-block: 0; }
+body.present .app-head.is-current h2 { font-size: 3.5rem; }
+body.present .intro.is-current h1 { font-size: 2.75rem; max-width: 24ch; }
+body.present .pbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; height: calc(64px + env(safe-area-inset-bottom, 0px)); padding: 0 max(16px, env(safe-area-inset-right, 0px)) env(safe-area-inset-bottom, 0px) max(16px, env(safe-area-inset-left, 0px)); align-items: center; gap: 10px; background: var(--surface); border-top: 2px solid var(--red-bar); }
+.pbar button { font: inherit; font-size: var(--step--1); font-weight: 700; min-width: 40px; height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); cursor: pointer; }
+.pbar button:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
+.pbar button:disabled { opacity: 0.4; cursor: default; }
+#pnav-prev, #pnav-next { font-size: 1.5rem; line-height: 1; padding-bottom: 3px; }
+.pbar .pnav-next { background: var(--red-bar); border-color: var(--red-bar); color: #ffffff; }
+.pbar .pnav-next:hover:not(:disabled) { background: #a00718; color: #ffffff; }
+.pbar .pinfo { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: 10px; overflow: hidden; }
+.pbar .pcount { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--red); font-weight: 500; flex: none; }
+.pbar .ptitle { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pbar .pzoom { display: flex; gap: 6px; align-items: center; }
+.pbar .pzoom[hidden] { display: none; }
+.pbar .pzoom-val { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); width: 4.5ch; text-align: right; }
+.pbar .phint { color: var(--muted); font-size: var(--step--1); white-space: nowrap; }
+@media (max-width: 760px) { .pbar .phint, .pbar .pzoom-val { display: none; } body.present .block.is-current { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); } }
 </style>
 
 <nav class="topbar" aria-label="Navigasi aplikasi">
@@ -182,6 +219,7 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
       <li><a href="#perbandingan">Perbandingan</a></li>
       <li><a href="#mofi" data-app="mofi">MOFI RO App</a></li><li><a href="#sfa" data-app="sfa">SFA</a></li><li><a href="#hebat" data-app="hebat">HeBAT</a></li>
     </ul>
+    <button type="button" class="present-start" id="present-start">Mode presentasi</button>
   </div>
 </nav>
 
@@ -2109,6 +2147,20 @@ footer p { max-width: 80ch; margin: 0 0 6px; }
   <p>File pendamping: <code>bpmn/*.bpmn</code> untuk Camunda Modeler atau bpmn.io, <code>mermaid/*.mmd</code> untuk flowchart, status, dan peta layar.</p>
 </footer>
 
+<div class="pbar" role="toolbar" aria-label="Kontrol presentasi">
+  <button type="button" id="pnav-prev" aria-label="Bagian sebelumnya">&#8249;</button>
+  <button type="button" id="pnav-next" class="pnav-next" aria-label="Bagian berikutnya">&#8250;</button>
+  <div class="pinfo"><span class="pcount" id="pcount"></span><span class="ptitle" id="ptitle"></span></div>
+  <div class="pzoom" id="pzoom" hidden>
+    <button type="button" id="pzoom-out" aria-label="Perkecil diagram">&minus;</button>
+    <span class="pzoom-val" id="pzoom-val"></span>
+    <button type="button" id="pzoom-in" aria-label="Perbesar diagram">+</button>
+    <button type="button" id="pzoom-fit">Pas layar</button>
+    <span class="phint">geser dengan drag</span>
+  </div>
+  <button type="button" id="present-exit">Keluar</button>
+</div>
+
 <script>
 document.querySelectorAll('button.copy').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -2121,6 +2173,134 @@ document.querySelectorAll('button.copy').forEach(btn => {
     } catch (e) { selectText(); }
   });
 });
+
+// Mode presentasi
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('main .intro, main .compare, main .app-head, main .block'));
+  var body = document.body, idx = 0, active = false, zoom = 1, diag = null, svg = null, natW = 0, natH = 0;
+  var $ = function (id) { return document.getElementById(id); };
+  var appName = function (el) { var app = el.closest('.app'); var h = app && app.querySelector('.app-head h2'); return h ? h.textContent : ''; };
+  var titleOf = function (el) {
+    var h = el.querySelector('h1, h2, h3');
+    var t = h ? h.textContent.trim() : '';
+    var a = appName(el);
+    return a && !el.classList.contains('app-head') ? a + ' · ' + t : t;
+  };
+
+  function setZoom(z, keepCenter) {
+    if (!svg) return;
+    z = Math.max(0.1, Math.min(4, z));
+    var cx = 0.5, cy = 0.5;
+    if (keepCenter && diag.scrollWidth) {
+      cx = (diag.scrollLeft + diag.clientWidth / 2) / diag.scrollWidth;
+      cy = (diag.scrollTop + diag.clientHeight / 2) / diag.scrollHeight;
+    }
+    zoom = z;
+    svg.style.width = Math.round(natW * z) + 'px';
+    svg.style.height = Math.round(natH * z) + 'px';
+    if (keepCenter) {
+      diag.scrollLeft = cx * diag.scrollWidth - diag.clientWidth / 2;
+      diag.scrollTop = cy * diag.scrollHeight - diag.clientHeight / 2;
+    }
+    $('pzoom-val').textContent = Math.round(z * 100) + '%';
+  }
+  function fit() {
+    if (!svg) return;
+    var w = diag.clientWidth - 24, h = diag.clientHeight - 24;
+    setZoom(Math.min(w / natW, h / natH, 1.5), false);
+    diag.scrollLeft = 0; diag.scrollTop = 0;
+  }
+  function resetSvgs() {
+    document.querySelectorAll('.diagram svg').forEach(function (s) { s.style.width = ''; s.style.height = ''; });
+  }
+
+  function show(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    document.querySelectorAll('.is-current, .has-current').forEach(function (el) { el.classList.remove('is-current', 'has-current'); });
+    var el = slides[idx];
+    el.classList.add('is-current');
+    var app = el.closest('.app');
+    if (app) app.classList.add('has-current');
+    el.scrollTop = 0;
+    resetSvgs();
+    diag = el.querySelector('.diagram');
+    svg = diag && diag.querySelector('svg');
+    $('pzoom').hidden = !svg;
+    if (svg) {
+      var vb = svg.viewBox.baseVal;
+      natW = vb.width; natH = vb.height;
+      requestAnimationFrame(fit);
+    }
+    $('pcount').textContent = (idx + 1) + ' / ' + slides.length;
+    $('ptitle').textContent = titleOf(el);
+    $('pnav-prev').disabled = idx === 0;
+    $('pnav-next').disabled = idx === slides.length - 1;
+  }
+
+  function start(i) {
+    active = true;
+    body.classList.add('present');
+    show(typeof i === 'number' ? i : 0);
+    var root = document.documentElement;
+    if (root.requestFullscreen && !document.fullscreenElement) {
+      try { root.requestFullscreen().catch(function () {}); } catch (e) {}
+    }
+    $('pnav-next').focus();
+  }
+  function stop() {
+    if (!active) return;
+    active = false;
+    var cur = slides[idx];
+    body.classList.remove('present');
+    document.querySelectorAll('.is-current, .has-current').forEach(function (el) { el.classList.remove('is-current', 'has-current'); });
+    resetSvgs();
+    if (document.fullscreenElement && document.exitFullscreen) { try { document.exitFullscreen().catch(function () {}); } catch (e) {} }
+    if (cur) cur.scrollIntoView({ block: 'start' });
+    $('present-start').focus();
+  }
+
+  $('present-start').addEventListener('click', function () { start(0); });
+  $('present-exit').addEventListener('click', stop);
+  $('pnav-prev').addEventListener('click', function () { show(idx - 1); });
+  $('pnav-next').addEventListener('click', function () { show(idx + 1); });
+  $('pzoom-in').addEventListener('click', function () { setZoom(zoom * 1.25, true); });
+  $('pzoom-out').addEventListener('click', function () { setZoom(zoom / 1.25, true); });
+  $('pzoom-fit').addEventListener('click', fit);
+  window.addEventListener('resize', function () { if (active && svg) fit(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!active || e.altKey || e.ctrlKey || e.metaKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || (k === ' ' && !e.shiftKey)) { e.preventDefault(); show(idx + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || (k === ' ' && e.shiftKey)) { e.preventDefault(); show(idx - 1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(slides.length - 1); }
+    else if (k === 'Escape') { stop(); }
+    else if ((k === '+' || k === '=') && svg) { e.preventDefault(); setZoom(zoom * 1.25, true); }
+    else if ((k === '-' || k === '_') && svg) { e.preventDefault(); setZoom(zoom / 1.25, true); }
+    else if (k === '0' && svg) { e.preventDefault(); fit(); }
+  });
+
+  // geser diagram dengan drag
+  var drag = null;
+  document.addEventListener('pointerdown', function (e) {
+    if (!active || !diag || !diag.contains(e.target) || e.button !== 0) return;
+    drag = { x: e.clientX, y: e.clientY, l: diag.scrollLeft, t: diag.scrollTop, id: e.pointerId };
+    diag.classList.add('dragging');
+    try { diag.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  document.addEventListener('pointermove', function (e) {
+    if (!drag || e.pointerId !== drag.id) return;
+    diag.scrollLeft = drag.l - (e.clientX - drag.x);
+    diag.scrollTop = drag.t - (e.clientY - drag.y);
+  });
+  var endDrag = function () { if (drag && diag) diag.classList.remove('dragging'); drag = null; };
+  document.addEventListener('pointerup', endDrag);
+  document.addEventListener('pointercancel', endDrag);
+
+  if (location.hash === '#presentasi') start(0);
+  window.addEventListener('hashchange', function () { if (location.hash === '#presentasi' && !active) start(0); });
+})();
 </script>
 
 </html>
